@@ -2,7 +2,7 @@
 
 # ember-content-editable
 
-Ember cli content-editable component, with placeholder and value binding.
+Ember cli content-editable component, with placeholder and value binding. Just like a textfield, but it will autoresize for you. It also works in [almost all browsers](http://caniuse.com/contenteditable).
 
 ## Installation
 
@@ -24,6 +24,7 @@ You can also pass in an extra CSS class if required, and of course specify the t
                    placeholder="Your name"
                    extraClass="name-field"
                    tagName="h3"}}
+```
 
 ## License
 
