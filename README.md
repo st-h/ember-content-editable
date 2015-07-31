@@ -17,6 +17,14 @@ Use it just like `input` or `textarea`.
                    placeholder="Your name"}}
 ```
 
+You can also pass in an extra CSS class if required, and of course specify the tag.
+
+```javascript
+{{content-editable value=name
+                   placeholder="Your name"
+                   extraClass="name-field"
+                   tagName="h3"}}
+
 ## License
 
 The MIT License (MIT)
