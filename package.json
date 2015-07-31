@@ -1,7 +1,7 @@
 {
   "name": "ember-content-editable",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.1.0",
+  "description": "A content-editable component for ember-cli that just works.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -11,7 +11,10 @@
     "build": "ember build",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AddJam/ember-content-editable"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -37,12 +40,19 @@
     "ember-try": "0.0.6"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "ember",
+    "ember-cli",
+    "contenteditable",
+    "content",
+    "editable",
+    "textarea"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.0.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
-  }
+  },
+  "homepage": "https://github.com/AddJam/ember-content-editable"
 }
