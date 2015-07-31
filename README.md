@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/ember-hold-button.svg)](http://badge.fury.io/js/ember-hold-button)
+
 # ember-content-editable
 
 Ember cli content-editable component, with placeholder and value binding.
