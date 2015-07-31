@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/ember-hold-button.svg)](http://badge.fury.io/js/ember-hold-button)
+[![npm version](https://badge.fury.io/js/ember-content-editable.svg)](http://badge.fury.io/js/ember-content-editable)
 
 # ember-content-editable
 
