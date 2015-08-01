@@ -46,7 +46,8 @@
     "contenteditable",
     "content",
     "editable",
-    "textarea"
+    "textarea",
+    "auto resize"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.0.0"
