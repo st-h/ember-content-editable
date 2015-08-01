@@ -33,8 +33,10 @@ You can also provide actions to handle the following events
 |----------------|
 | key-up         |
 | key-down       |
+| key-press      |
 | escape-press   |
 | enter          |
+| insert-newline |
 | focus-in       |
 | focus-out      |
 | mouse-enter    |
