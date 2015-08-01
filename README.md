@@ -2,7 +2,7 @@
 
 # ember-content-editable
 
-Ember cli content-editable component, with placeholder and value binding. Just like a textfield, but it will autoresize for you. It also works in [almost all browsers](http://caniuse.com/contenteditable).
+Ember cli content-editable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you. It also works in [almost all browsers](http://caniuse.com/contenteditable).
 
 ## Installation
 
