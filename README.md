@@ -26,6 +26,27 @@ You can also pass in an extra CSS class if required, and of course specify the t
                    tagName="h3"}}
 ```
 
+### Events
+You can also provide actions to handle the following events
+
+| Event Name     |
+|----------------|
+| key-up         |
+| key-down       |
+| escape-press   |
+| enter          |
+| focus-in       |
+| focus-out      |
+| mouse-enter    |
+| mouse-leave    |
+
+For example:
+```javascript
+{{content-editable value=name
+                   placeholder="Your name"
+                   enter="save"}}
+```
+
 ## License
 
 The MIT License (MIT)
