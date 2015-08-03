@@ -33,8 +33,7 @@ Option Name          | Description                                    | Default
 value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
 isText               | Is the value HTML or plaintext?                | `true`
-stringInterpolator   | Function which processes any updated value.    | `none`
-                     | Takes a string and returns a string.           |
+stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the  string to be used instead.           | none
 extraClass           | String with any extra css class.               | `null`
 
 ### Events
