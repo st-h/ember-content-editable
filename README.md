@@ -26,6 +26,17 @@ You can also pass in an extra CSS class if required, and of course specify the t
                    tagName="h3"}}
 ```
 
+### Options
+
+Option Name          | Description                                    | Default
+---------------------|------------------------------------------------|---------
+value                | The value to be edited                         | `""`
+placeholder          | Placeholder displayed when value is blank      | `""`
+isText               | Is the value HTML or plaintext?                | `true`
+stringInterpolator   | Function which processes any updated value.    | `none`
+                     | Takes a string and returns a string.           |
+extraClass           | String with any extra css class.               | `null`
+
 ### Events
 You can also provide actions to handle the following events
 

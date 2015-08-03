@@ -5,13 +5,18 @@ export default Ember.Component.extend({
   classNameBindings: ['extraClass'],
   attributeBindings: ['contenteditable', 'placeholder'],
   contenteditable: true,
+  isText: false,
 
   setup: Ember.on('didInsertElement', function() {
     this.setValue();
   }),
 
+  _observeValue: true,
   valueChanged: Ember.observer('value', function() {
-    this.setValue();
+    console.log("Value changed triggered");
+    if (this.get('_observeValue')) {
+      this.setValue();
+    }
   }),
 
   setValue() {
@@ -23,7 +28,24 @@ export default Ember.Component.extend({
   stringInterpolator(s) { return s; },
 
   updateValue: Ember.on('keyUp', function(event) {
-    this.set('value', this.stringInterpolator(this.$().text()));
+    this.set('_observeValue', false);
+
+    let val;
+    if (this.get('isText')) {
+      val = this.element.innerText || this.element.textContent;
+    } else {
+      val = this.$().html();
+    }
+
+    val = this.stringInterpolator(val);
+
+    if (!this.get('isText')) {
+      val = Ember.String.htmlSafe(val);
+    }
+
+    this.set('value', val);
+    this.set('_observeValue', true);
+
     this.handleKeyUp(event);
   }),
 
