@@ -7,8 +7,18 @@ export default Ember.Component.extend({
   contenteditable: true,
 
   setup: Ember.on('didInsertElement', function() {
-    this.$().html(this.get('value'));
+    this.setValue();
   }),
+
+  valueChanged: Ember.observer('value', function() {
+    this.setValue();
+  }),
+
+  setValue() {
+    if (this.element) {
+      this.$().html(this.get('value'));
+    }
+  },
 
   stringInterpolator(s) { return s; },
 
