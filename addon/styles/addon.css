@@ -6,3 +6,7 @@
 [contenteditable=true] {
   cursor: text;
 }
+
+.ember-content-editable:empty:after {
+  content: "\0000a0";
+}
