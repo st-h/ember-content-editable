@@ -7,7 +7,7 @@
 }
 
 .ember-content-editable:empty {
-  color: rgba(0,0,0,0.6);
+  color: #a9a9a9;
 }
 
 .ember-content-editable:empty:after {
