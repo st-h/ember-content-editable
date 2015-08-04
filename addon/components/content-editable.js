@@ -14,7 +14,6 @@ export default Ember.Component.extend({
 
   _observeValue: true,
   valueChanged: Ember.observer('value', function() {
-    console.log("Value changed triggered");
     if (this.get('_observeValue')) {
       this.setValue();
     }
