@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 
   setup: Ember.on('didInsertElement', function() {
     this.setValue();
+    this._processInput();
   }),
 
   _observeValue: true,
@@ -27,7 +28,7 @@ export default Ember.Component.extend({
 
   stringInterpolator(s) { return s; },
 
-  updateValue: Ember.on('keyUp', function(event) {
+  _processInput() {
     this.set('_observeValue', false);
 
     let val;
@@ -45,12 +46,15 @@ export default Ember.Component.extend({
 
     this.set('value', val);
     this.set('_observeValue', true);
+  },
 
+  updateValue: Ember.on('keyUp', function(event) {
+    this._processInput();
     this.handleKeyUp(event);
   }),
 
   handleKeyUp(event) {
-    this.sendAction('keyUp', this.get('value'), event);
+    this.sendAction('key-up', this.get('value'), event);
 
     if (event.keyCode === 27) {
       // Escape
