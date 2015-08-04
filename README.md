@@ -59,6 +59,28 @@ For example:
                    enter="save"}}
 ```
 
+### Customizing Placeholder Color
+```
+.ember-content-editable:empty {
+  color: rgba(0,0,0,0.6);
+}
+```
+
+## Common Problems
+
+### Extra Tags
+Some browsers have a bug where extra tags including `<div>`s get inserted into contenteditable fields, usually when newlines are entered.
+
+1) If you don't care about any tags, use `isText=true` to strip all of them.  
+2) If you do care about tags, either use `display: inline-block` on the content-editable component (simplest solution) or pass a function as `stringInterpolator=myInterpolator` to remove extra text.
+
+```
+myInterpolator(inputString) {
+  /* Remove extra tags */
+  return stringWithNoDivs;
+}
+```
+
 ## License
 
 The MIT License (MIT)
