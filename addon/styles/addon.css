@@ -1,10 +1,13 @@
 [contenteditable=true]:empty:not(:focus):before {
   content: attr(placeholder);
-  color: rgba(0,0,0,0.6);
 }
 
 [contenteditable=true] {
   cursor: text;
+}
+
+.ember-content-editable:empty {
+  color: rgba(0,0,0,0.6);
 }
 
 .ember-content-editable:empty:after {
