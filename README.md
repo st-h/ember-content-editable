@@ -1,4 +1,5 @@
 [![npm version](https://badge.fury.io/js/ember-content-editable.svg)](http://badge.fury.io/js/ember-content-editable)
+[![build status](https://travis-ci.org/AddJam/ember-content-editable.svg)](https://travis-ci.org/AddJam/ember-content-editable)
 
 # ember-content-editable
 
