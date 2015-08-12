@@ -208,3 +208,21 @@ test('mouse events are triggered', function(assert) {
   $element.mouseenter();
   $element.mouseleave();
 });
+
+test('editable property is alias for contenteditable', function(assert) {
+  assert.expect(1);
+  this.render(hbs`{{content-editable editable=true}}`);
+  const $element = this.$('.ember-content-editable');
+  assert.ok($element.attr('contenteditable') === "true");
+});
+
+test('value binding for editable works', function(assert) {
+  assert.expect(2);
+  this.set('editable', false);
+  this.render(hbs`{{content-editable editable=editable}}`);
+  const $element = this.$('.ember-content-editable');
+  assert.ok($element.attr('contenteditable') === "false");
+
+  this.set('editable', true);
+  assert.ok($element.attr('contenteditable') === "true");
+});

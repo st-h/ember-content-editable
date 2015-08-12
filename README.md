@@ -36,6 +36,7 @@ placeholder          | Placeholder displayed when value is blank      | `""`
 isText               | Is the value HTML or plaintext?                | `false`
 stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the  string to be used instead.           | none
 extraClass           | String with any extra css class.               | `null`
+editable             | Is the element editable?                       | `true`
 
 ### Events
 You can also provide actions to handle the following events

@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   classNameBindings: ['extraClass'],
   attributeBindings: ['contenteditable', 'placeholder'],
   contenteditable: true,
+  editable: Ember.computed.alias('contenteditable'),
   isText: false,
 
   setup: Ember.on('didInsertElement', function() {
