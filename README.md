@@ -39,20 +39,20 @@ class                | String with any extra css class.               | none
 editable             | Is the element editable?                       | `true`
 
 ### Events
-You can also provide actions to handle the following events
+You can provide actions to handle the following list of events. Arguments passed to your action are consistent with Ember implementations in places like the `{{input}}` helper. `value` is the current value of the content-editable field, `component` is the component instance itself, and `event` is the corresponding raw event object.
 
-| Event Name     |
-|----------------|
-| key-up         |
-| key-down       |
-| key-press      |
-| escape-press   |
-| enter          |
-| insert-newline |
-| focus-in       |
-| focus-out      |
-| mouse-enter    |
-| mouse-leave    |
+| Event Name     | Arguments
+|----------------|----------------
+| key-up         | value, event
+| key-down       | value, event
+| key-press      | component, event
+| escape-press   | component, event
+| enter          | component, event
+| insert-newline | component, event
+| focus-in       | component, event
+| focus-out      | component, event
+| mouse-enter    | component, event
+| mouse-leave    | component, event
 
 For example:
 ```javascript
