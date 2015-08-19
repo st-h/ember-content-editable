@@ -28,16 +28,18 @@ export default Ember.Component.extend({
 
   stringInterpolator(s) { return s; },
 
+  _getInputValue() {
+    if (this.get('isText')) {
+      return this.element.innerText || this.element.textContent;
+    } else {
+      return this.$().html();
+    }
+  },
+
   _processInput() {
     this.set('_observeValue', false);
 
-    let val;
-    if (this.get('isText')) {
-      val = this.element.innerText || this.element.textContent;
-    } else {
-      val = this.$().html();
-    }
-
+    let val = this._getInputValue();
     val = this.stringInterpolator(val);
 
     if (!this.get('isText')) {

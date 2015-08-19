@@ -70,6 +70,24 @@ For example:
 
 ## Common Problems
 
+### Filtering Input
+If you want to filter the input, you can achieve this using the `key-press` event.
+
+The following example filters the input to only allow numerical values.
+
+```
+{{content-editable value=age key-press=filter}}
+```
+
+```
+  filter(currentValue, event) {
+    const keyCode = event.which;
+    if (keyCode <= 48 || keyCode >= 58) {
+      event.preventDefault();
+    }
+  },
+```
+
 ### Extra Tags
 Some browsers have a bug where extra tags including `<div>`s get inserted into contenteditable fields, usually when newlines are entered.
 
