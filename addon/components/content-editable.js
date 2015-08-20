@@ -10,7 +10,7 @@ export default Ember.Component.extend({
 
   setup: Ember.on('didInsertElement', function() {
     this.setValue();
-    this._processInput();
+    Ember.run.once(() => this._processInput());
   }),
 
   _observeValue: true,
