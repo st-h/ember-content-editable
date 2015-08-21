@@ -3,9 +3,10 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['ember-content-editable'],
   classNameBindings: ['extraClass'],
-  attributeBindings: ['contenteditable', 'placeholder'],
+  attributeBindings: ['contenteditable', 'placeholder', "spellcheck"],
   contenteditable: true,
   editable: Ember.computed.alias('contenteditable'),
+  spellcheck: false,
   isText: null,
   type: null,
 

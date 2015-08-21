@@ -38,6 +38,7 @@ stringInterpolator   | Function which processes / intercepts any updated value. 
 class                | String with any extra css class.               | none
 editable             | Is the element editable?                       | `true`
 type                 | `number`, `text`, or `html`                    | `html`
+spellcheck           | Uses browsers spellcheck, same as with `<input>` | false
 
 ##### isText Deprecation
 isText has been deprecated. You should replace `isText=true` with `type="text"`, and `isText=false` with `type="html"`.
