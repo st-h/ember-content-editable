@@ -3,10 +3,31 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['ember-content-editable'],
   classNameBindings: ['extraClass'],
-  attributeBindings: ['contenteditable', 'placeholder', "spellcheck", "tabindex"],
-  contenteditable: true,
-  editable: Ember.computed.alias('contenteditable'),
-  spellcheck: false,
+  attributeBindings: [
+    'contenteditable',
+    'placeholder',
+    'spellcheck',
+    'tabindex',
+    'readonly',
+    'disabled'
+  ],
+  contenteditable: Ember.computed('editable', 'disabled', function() {
+    if (this.get('editable') !== null) {
+      if (this.get('editable')) {
+        Ember.deprecate("You set editable=true on content-editable, " +
+            "but this has been deprecated in favour of disabled=false");
+      } else {
+        Ember.deprecate("You set editable=false on content-editable, " +
+            "but this has been deprecated in favour of disabled=true");
+      }
+      return this.get('editable');
+    } else {
+      return !this.get('disabled');
+    }
+  }),
+  editable: null,
+  disabled: null,
+  spellcheck: null,
   isText: null,
   type: null,
 
