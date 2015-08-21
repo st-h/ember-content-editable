@@ -106,6 +106,13 @@ myInterpolator(inputString) {
 }
 ```
 
+### Tab Index
+The `tabindex` attribute is bound to the element in the DOM, but only [certain tags support it](http://www.w3.org/TR/html4/interact/forms.html#adef-tabindex).
+
+>The following elements support the tabindex attribute: A, AREA, BUTTON, INPUT, OBJECT, SELECT, and TEXTAREA.
+
+So to use `tabindex`, you'll also need to set `tagName` to one of those.
+
 ## License
 
 The MIT License (MIT)
