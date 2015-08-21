@@ -96,6 +96,11 @@ export default Ember.Component.extend({
   }),
 
   handleKeyUp(event) {
+    if (this.get('readonly')) {
+      event.preventDefault();
+      return false;
+    }
+
     this.sendAction('key-up', this.get('value'), event);
 
     if (event.keyCode === 27) {
@@ -110,6 +115,11 @@ export default Ember.Component.extend({
 
   /* Events */
   keyDown(event) {
+    if (this.get('readonly')) {
+      event.preventDefault();
+      return false;
+    }
+
     this.sendAction('key-down', this.get('value'), event);
   },
 

@@ -243,6 +243,27 @@ test('value binding for editable works', function(assert) {
   assert.ok($element.attr('contenteditable') === "true");
 });
 
+test('disabled attribute works', function(assert) {
+  assert.expect(1);
+  this.render(hbs`{{content-editable disabled=true}}`);
+  const $element = this.$('.ember-content-editable');
+
+  assert.equal($element.attr('contenteditable'), "false");
+});
+
+test('readonly attribute works', function(assert) {
+  assert.expect(1);
+  this.set('keyPress', function() {
+    // Should never be called
+    assert.ok(false);
+  });
+  this.render(hbs`{{content-editable readonly=true key-press=keyPress}}`);
+  const $element = this.$('.ember-content-editable');
+
+  assert.equal($element.attr('contenteditable'), "true");
+  $element.trigger($.Event("keypress", { keyCode: 65 }));
+});
+
 test('type=number works', function(assert) {
   assert.expect(1);
   this.set('value', "");
