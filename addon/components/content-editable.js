@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['ember-content-editable'],
   classNameBindings: ['extraClass'],
-  attributeBindings: ['contenteditable', 'placeholder', "spellcheck"],
+  attributeBindings: ['contenteditable', 'placeholder', "spellcheck", "tabindex"],
   contenteditable: true,
   editable: Ember.computed.alias('contenteditable'),
   spellcheck: false,
