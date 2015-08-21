@@ -30,6 +30,7 @@ export default Ember.Component.extend({
   spellcheck: null,
   isText: null,
   type: null,
+  readonly: null,
 
   inputType: Ember.computed('type', 'isText', function() {
     if (this.get('isText') !== null) {
@@ -113,6 +114,11 @@ export default Ember.Component.extend({
   },
 
   keyPress(event) {
+    if (this.get('readonly')) {
+      event.preventDefault();
+      return false;
+    }
+
     if (this.get('type') === 'number') {
       const key = event.which || event.keyCode;
       if (key < 48 || key >= 58) {
@@ -120,6 +126,7 @@ export default Ember.Component.extend({
         return false;
       }
     }
+
     this.sendAction('key-press', this, event);
   },
 
