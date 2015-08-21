@@ -226,3 +226,17 @@ test('value binding for editable works', function(assert) {
   this.set('editable', true);
   assert.ok($element.attr('contenteditable') === "true");
 });
+
+test('type=number works', function(assert) {
+  assert.expect(1);
+  this.set('value', "");
+  this.set('keyPress', function(event) {
+    assert.ok(!event.defaultPrevented);
+  });
+
+  this.render(hbs`{{content-editable type="number" value=value key-press=keyPress}}`);
+  const $element = this.$('.ember-content-editable');
+
+  $element.trigger($.Event("keypress", { keyCode: 49})); // Number
+  $element.trigger($.Event("keypress", { keyCode: 65 })); // Not number
+});

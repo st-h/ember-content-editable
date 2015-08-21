@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   contenteditable: true,
   editable: Ember.computed.alias('contenteditable'),
   isText: false,
+  type: null,
 
   setup: Ember.on('didInsertElement', function() {
     this.setValue();
@@ -74,6 +75,13 @@ export default Ember.Component.extend({
   },
 
   keyPress(event) {
+    if (this.get('type') === 'number') {
+      const key = event.which || event.keyCode;
+      if (key <= 48 || key >= 58) {
+        event.preventDefault();
+        return false;
+      }
+    }
     this.sendAction('key-press', this, event);
   },
 
