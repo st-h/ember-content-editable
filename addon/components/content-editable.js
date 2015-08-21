@@ -51,13 +51,16 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement', function() {
     this.setValue();
     Ember.run.once(() => this._processInput());
+
+    this.$().on('paste', this.handlePaste.bind(this));
   }),
 
-  _observeValue: true,
+  tidy: Ember.on('willDestroyElement', function() {
+    this.$().off('paste', this.handlePaste);
+  }),
+
   valueChanged: Ember.observer('value', function() {
-    if (this.get('_observeValue')) {
-      this.setValue();
-    }
+    this.setValue();
   }),
 
   setValue() {
@@ -77,17 +80,25 @@ export default Ember.Component.extend({
   },
 
   _processInput() {
-    this.set('_observeValue', false);
-
     let val = this._getInputValue();
     val = this.stringInterpolator(val);
-
-    if (this.get('inputType') === "html") {
-      val = Ember.String.htmlSafe(val);
-    }
-
+    val = this.htmlSafe(val);
     this.set('value', val);
-    this.set('_observeValue', true);
+  },
+
+  htmlSafe(val) {
+    if (this.get('inputType') === "html") {
+      return Ember.String.htmlSafe(val);
+    } else {
+      return val;
+    }
+  },
+
+  isUnderMaxLength(val) {
+    return (
+        Ember.isEmpty(this.get('maxlength')) ||
+        val.length < this.get('maxlength')
+    );
   },
 
   updateValue: Ember.on('keyUp', function(event) {
@@ -114,6 +125,33 @@ export default Ember.Component.extend({
   },
 
   /* Events */
+  handlePaste(event) {
+    let content = event.originalEvent.clipboardData.getData('text');
+    const currentVal = this._getInputValue();
+
+    if (!Ember.isEmpty(this.get('maxlength'))) {
+      event.preventDefault();
+
+      if (window.getSelection().rangeCount > 0) {
+        let start = window.getSelection().getRangeAt(0).startOffset;
+        let end = window.getSelection().getRangeAt(0).endOffset;
+
+        let freeSpace = this.get('maxlength') - currentVal.length + (end - start);
+        content = content.substring(0, freeSpace);
+
+        let newVal = currentVal.substring(0, start) + content + currentVal.substring(end, this.get('maxlength'));
+        this.set('value', newVal);
+
+        var range = document.createRange();
+        range.setStart(this.element.childNodes[0], start + freeSpace);
+        var sel = window.getSelection();
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }
+  },
+
   keyDown(event) {
     if (this.get('readonly')) {
       event.preventDefault();
@@ -128,6 +166,12 @@ export default Ember.Component.extend({
       event.preventDefault();
       return false;
     }
+
+    let val = this._getInputValue();
+    if (!this.isUnderMaxLength(val)) {
+      event.preventDefault();
+    }
+
 
     if (this.get('type') === 'number') {
       const key = event.which || event.keyCode;

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  name: "Stage 1 delivery of 3Com Reseller Locator to\r\nFoundation Network LTD",
+  name: "<b>yo<i>lo</i></b> yup",
 
   filter(currentValue, event) {
     var k = event.which;
