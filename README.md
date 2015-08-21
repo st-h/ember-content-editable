@@ -33,10 +33,13 @@ Option Name          | Description                                    | Default
 ---------------------|------------------------------------------------|---------
 value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
-isText               | Is the value HTML or plaintext?                | `false`
 stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the  string to be used instead.           | none
 class                | String with any extra css class.               | none
 editable             | Is the element editable?                       | `true`
+type                 | `number`, `text`, or `html`                    | `html`
+
+##### isText Deprecation
+isText has been deprecated. You should replace `isText=true` with `type="text"`, and `isText=false` with `type="html"`.
 
 ### Events
 You can provide actions to handle the following list of events. Arguments passed to your action are consistent with Ember implementations in places like the `{{input}}` helper. `value` is the current value of the content-editable field, `component` is the component instance itself, and `event` is the corresponding raw event object.

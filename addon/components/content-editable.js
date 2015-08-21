@@ -6,8 +6,24 @@ export default Ember.Component.extend({
   attributeBindings: ['contenteditable', 'placeholder'],
   contenteditable: true,
   editable: Ember.computed.alias('contenteditable'),
-  isText: false,
+  isText: null,
   type: null,
+
+  inputType: Ember.computed('type', 'isText', function() {
+    if (this.get('isText') !== null) {
+      if (this.get('isText')) {
+        Ember.deprecate("You set isText=true on content-editable, " +
+            "but this has been deprecated in favour of type='text'");
+        return "text";
+      } else {
+        Ember.deprecate("You set isText=false on content-editable, " +
+            "but this has been deprecated in favour of type='html'");
+        return "html";
+      }
+    } else {
+      return this.get('type') || "html";
+    }
+  }),
 
   setup: Ember.on('didInsertElement', function() {
     this.setValue();
@@ -30,7 +46,7 @@ export default Ember.Component.extend({
   stringInterpolator(s) { return s; },
 
   _getInputValue() {
-    if (this.get('isText')) {
+    if (this.get('inputType') === "text") {
       return this.element.innerText || this.element.textContent;
     } else {
       return this.$().html();
@@ -43,7 +59,7 @@ export default Ember.Component.extend({
     let val = this._getInputValue();
     val = this.stringInterpolator(val);
 
-    if (!this.get('isText')) {
+    if (this.get('inputType') === "html") {
       val = Ember.String.htmlSafe(val);
     }
 
@@ -77,7 +93,7 @@ export default Ember.Component.extend({
   keyPress(event) {
     if (this.get('type') === 'number') {
       const key = event.which || event.keyCode;
-      if (key <= 48 || key >= 58) {
+      if (key < 48 || key >= 58) {
         event.preventDefault();
         return false;
       }

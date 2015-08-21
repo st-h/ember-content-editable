@@ -89,6 +89,22 @@ test('String interpolator is called', function(assert) {
   assert.equal(this.get("value"), "gif not jif gifs rock");
 });
 
+test('type=text strips html', function(assert) {
+  assert.expect(1);
+  this.set("value", "<b>baller</b>");
+  this.render(hbs`{{content-editable value=value placeholder="bananas" type="text"}}`);
+
+  assert.equal(this.get("value"), "baller", "html stripped from value");
+});
+
+test('type=html preserves html', function(assert) {
+  assert.expect(1);
+  this.set("value", "<b>baller</b>");
+  this.render(hbs`{{content-editable value=value placeholder="bananas" type="html"}}`);
+
+  assert.equal(this.get("value"), "<b>baller</b>", "html not stripped from value");
+});
+
 test('isText strips html', function(assert) {
   assert.expect(1);
   this.set("value", "<b>baller</b>");
