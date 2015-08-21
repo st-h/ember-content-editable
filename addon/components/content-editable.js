@@ -52,11 +52,13 @@ export default Ember.Component.extend({
     this.setValue();
     Ember.run.once(() => this._processInput());
 
-    this.$().on('paste', this.handlePaste.bind(this));
+    this.$().on('paste', (event) => {
+      this.handlePaste(event, this);
+    });
   }),
 
   tidy: Ember.on('willDestroyElement', function() {
-    this.$().off('paste', this.handlePaste);
+    this.$().off('paste');
   }),
 
   valueChanged: Ember.observer('value', function() {
@@ -88,7 +90,7 @@ export default Ember.Component.extend({
 
   htmlSafe(val) {
     if (this.get('inputType') === "html") {
-      return Ember.String.htmlSafe(val);
+      return Ember.String.htmlSafe(val).toString();
     } else {
       return val;
     }
@@ -125,25 +127,25 @@ export default Ember.Component.extend({
   },
 
   /* Events */
-  handlePaste(event) {
+  handlePaste(event, _this) {
     let content = event.originalEvent.clipboardData.getData('text');
-    const currentVal = this._getInputValue();
+    const currentVal = _this._getInputValue();
 
-    if (!Ember.isEmpty(this.get('maxlength'))) {
+    if (!Ember.isEmpty(_this.get('maxlength'))) {
       event.preventDefault();
 
       if (window.getSelection().rangeCount > 0) {
         let start = window.getSelection().getRangeAt(0).startOffset;
         let end = window.getSelection().getRangeAt(0).endOffset;
 
-        let freeSpace = this.get('maxlength') - currentVal.length + (end - start);
+        let freeSpace = _this.get('maxlength') - currentVal.length + (end - start);
         content = content.substring(0, freeSpace);
 
-        let newVal = currentVal.substring(0, start) + content + currentVal.substring(end, this.get('maxlength'));
-        this.set('value', newVal);
+        let newVal = currentVal.substring(0, start) + content + currentVal.substring(end, _this.get('maxlength'));
+        _this.set('value', newVal);
 
         var range = document.createRange();
-        range.setStart(this.element.childNodes[0], start + freeSpace);
+        range.setStart(_this.element.childNodes[0], start + freeSpace);
         var sel = window.getSelection();
         range.collapse(true);
         sel.removeAllRanges();
@@ -171,7 +173,6 @@ export default Ember.Component.extend({
     if (!this.isUnderMaxLength(val)) {
       event.preventDefault();
     }
-
 
     if (this.get('type') === 'number') {
       const key = event.which || event.keyCode;
