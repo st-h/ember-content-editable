@@ -15,7 +15,8 @@ Use it just like `input` or `textarea`.
 
 ```javascript
 {{content-editable value=name
-                   placeholder="Your name"}}
+                   placeholder="Your name"
+                   type="text"}}
 ```
 
 You can also pass in an extra CSS class if required, and of course specify the tag.
@@ -94,7 +95,7 @@ The following example filters the input to only allow numerical values.
 ### Extra Tags
 Some browsers have a bug where extra tags including `<div>`s get inserted into contenteditable fields, usually when newlines are entered.
 
-1) If you don't care about any tags, use `isText=true` to strip all of them.  
+1) If you don't care about any tags, use `type="text"` to strip all of them.
 2) If you do care about tags, either use `display: inline-block` on the content-editable component (simplest solution) or pass a function as `stringInterpolator=myInterpolator` to remove extra text.
 
 ```
