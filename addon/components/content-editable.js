@@ -184,7 +184,16 @@ export default Ember.Component.extend({
 
     let val = this._getInputValue();
     if (!this.isUnderMaxLength(val)) {
-      event.preventDefault();
+      // Check if text is selected (typing will replace)
+      if (window.getSelection().rangeCount > 0) {
+        let start = window.getSelection().getRangeAt(0).startOffset;
+        let end = window.getSelection().getRangeAt(0).endOffset;
+        if (start === end) {
+          event.preventDefault();
+        }
+      } else {
+        event.preventDefault();
+      }
     }
 
     if (this.get('type') === 'number') {
