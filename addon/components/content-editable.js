@@ -61,23 +61,29 @@ export default Ember.Component.extend({
     this.$().off('paste');
   }),
 
+  _observeValue: true,
   valueChanged: Ember.observer('value', function() {
-    this.setValue();
+    if (this.get('_observeValue')) {
+      this.setValue();
+    }
   }),
 
   setValue() {
     if (this.element) {
-      this.$().html(this.get('value'));
+      this.$().text(this.get('value'));
     }
   },
 
   stringInterpolator(s) { return s; },
 
   _getInputValue() {
-    if (this.get('inputType') === "text") {
-      return this.element.innerText || this.element.textContent;
+    if (this.get('inputType') === "html") {
+      // Deocde html entities
+      let val = this.$().html();
+      val = this.$('<div/>').html(val).text();
+      return val;
     } else {
-      return this.$().html();
+      return this.element.innerText || this.element.textContent;
     }
   },
 
@@ -85,7 +91,14 @@ export default Ember.Component.extend({
     let val = this._getInputValue();
     val = this.stringInterpolator(val);
     val = this.htmlSafe(val);
-    this.set('value', val);
+
+    if (this.get('inputType') === "html") {
+      this.set('_observeValue', false);
+      this.set('value', val);
+      this.set('_observeValue', true);
+    } else {
+      this.set('value', val);
+    }
   },
 
   htmlSafe(val) {
