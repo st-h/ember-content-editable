@@ -119,6 +119,9 @@ The `tabindex` attribute is bound to the element in the DOM, but only [certain t
 
 So to use `tabindex`, you'll also need to set `tagName` to one of those.
 
+### Newlines aren't showing
+Try using `whitespace: pre-line;` or `whitespace: pre-wrap;` in your CSS.
+
 ## License
 
 The MIT License (MIT)
