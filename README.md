@@ -36,7 +36,7 @@ value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
 stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the string to be used instead.           | none
 class                | String with any extra css class               | none
-type                 | `number`, `text`, or `html`                    | `html`
+type                 | `number`, `text`, or `html`. `text` strips out any html tags, `html` doesn't.                    | `html`
 spellcheck           | Uses browsers spellcheck, same as with `<input>` | none
 readonly             | If true, element can't be edited but is focusable | false
 disabled             | If true, element can't be edited, focused or tabbed to | false
