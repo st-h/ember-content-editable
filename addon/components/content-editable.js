@@ -92,13 +92,9 @@ export default Ember.Component.extend({
     val = this.stringInterpolator(val);
     val = this.htmlSafe(val);
 
-    if (this.get('inputType') === "html") {
-      this.set('_observeValue', false);
-      this.set('value', val);
-      this.set('_observeValue', true);
-    } else {
-      this.set('value', val);
-    }
+    this.set('_observeValue', false);
+    this.set('value', val);
+    this.set('_observeValue', true);
   },
 
   htmlSafe(val) {
