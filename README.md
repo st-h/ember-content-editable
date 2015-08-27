@@ -80,6 +80,7 @@ For example:
 ```
 
 ## Common Problems
+These are some solutions to common problems browsers have with contenteditable elements.
 
 ### Filtering Input
 If you want to filter the input, you can achieve this using the `key-press` event.
@@ -134,6 +135,9 @@ endEditing(contentEditable, event) {
   window.getSelection().removeAllRanges();
 }
 ```
+
+### Cursor appears too big when element is empty
+Setting `display: block;` in CSS seems to solve this.
 
 ## License
 
