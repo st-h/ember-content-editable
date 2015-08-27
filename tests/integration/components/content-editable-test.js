@@ -161,11 +161,11 @@ test('specific key events triggered', function(assert) {
   `);
   const $element = this.$('.ember-content-editable');
 
-  const escapePress = $.Event("keyup", {keyCode: 27});
+  const escapePress = $.Event("keydown", {keyCode: 27});
   $element.trigger(escapePress);
 
   // Both enter and insert-newline
-  const enterNewlinePress = $.Event("keyup", {keyCode: 13});
+  const enterNewlinePress = $.Event("keydown", {keyCode: 13});
   $element.trigger(enterNewlinePress);
 });
 
