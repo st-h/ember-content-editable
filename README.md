@@ -122,6 +122,19 @@ So to use `tabindex`, you'll also need to set `tagName` to one of those.
 ### Newlines aren't showing
 Try using `whitespace: pre-line;` or `whitespace: pre-wrap;` in your CSS.
 
+### I can't blur the element
+A solution to this is to call `window.getSelection().removeAllRanges()` after you call `blur()` on the element.
+
+For example, if you have `enter='endEditing'` on your content-editable, the following action would prevent the newline and blur the element.
+
+```
+endEditing(contentEditable, event) {
+  event.preventDefault();
+  contentEditable.element.blur();
+  window.getSelection().removeAllRanges();
+}
+```
+
 ## License
 
 The MIT License (MIT)
