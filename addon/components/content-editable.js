@@ -124,15 +124,6 @@ export default Ember.Component.extend({
     }
 
     this.sendAction('key-up', this.get('value'), event);
-
-    if (event.keyCode === 27) {
-      // Escape
-      this.sendAction('escape-press', this, event);
-    } else if (event.keyCode === 13) {
-      // Enter
-      this.sendAction('enter', this, event);
-      this.sendAction('insert-newline', this, event);
-    }
   },
 
   /* Events */
@@ -167,6 +158,15 @@ export default Ember.Component.extend({
     if (this.get('readonly')) {
       event.preventDefault();
       return false;
+    }
+
+    if (event.keyCode === 27) {
+      // Escape
+      this.sendAction('escape-press', this, event);
+    } else if (event.keyCode === 13) {
+      // Enter
+      this.sendAction('enter', this, event);
+      this.sendAction('insert-newline', this, event);
     }
 
     this.sendAction('key-down', this.get('value'), event);
