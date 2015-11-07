@@ -152,6 +152,16 @@ export default Ember.Component.extend({
         sel.addRange(range);
       }
     }
+
+    var value = this.get('value');
+    this.set('_observeValue', false);
+
+    if (this.get('type') === 'number') {
+      value = value.toString().replace(/[^0-9]/g, '');
+    }
+
+    this.set('value', value);
+    this.set('_observeValue', true);
   },
 
   keyDown(event) {
