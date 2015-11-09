@@ -261,3 +261,31 @@ test('type=number works', function(assert) {
   $element.trigger($.Event("keypress", { keyCode: 49})); // Number
   $element.trigger($.Event("keypress", { keyCode: 65 })); // Not number
 });
+
+test('allowNewlines=true works', function(assert) {
+  assert.expect(2);
+  this.set('value', "");
+  this.set('keyDown', function(event) {
+    assert.ok(!event.defaultPrevented);
+  });
+
+  this.render(hbs`{{content-editable allowNewlines=true value=value key-down=keyDown}}`);
+  const $element = this.$('.ember-content-editable');
+
+  $element.trigger($.Event("keydown", { keyCode: 13})); // Enter
+  $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
+});
+
+test('allowNewlines=false works', function(assert) {
+  assert.expect(1);
+  this.set('value', "");
+  this.set('keyDown', function(event) {
+    assert.ok(!event.defaultPrevented);
+  });
+
+  this.render(hbs`{{content-editable allowNewlines=false value=value key-down=keyDown}}`);
+  const $element = this.$('.ember-content-editable');
+
+  $element.trigger($.Event("keydown", { keyCode: 13})); // Enter
+  $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
+});

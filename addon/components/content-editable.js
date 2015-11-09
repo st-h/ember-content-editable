@@ -31,6 +31,7 @@ export default Ember.Component.extend({
   isText: null,
   type: null,
   readonly: null,
+  allowNewlines: true,
 
   inputType: Ember.computed('type', 'isText', function() {
     if (this.get('isText') !== null) {
@@ -152,6 +153,20 @@ export default Ember.Component.extend({
         sel.addRange(range);
       }
     }
+
+    var value = this.get('value');
+    this.set('_observeValue', false);
+
+    if (!this.get('allowNewlines')) {
+      value = value.toString().replace(/\n/g, ' ');
+    }
+
+    if (this.get('type') === 'number') {
+      value = value.toString().replace(/[^0-9]/g, '');
+    }
+
+    this.set('value', value);
+    this.set('_observeValue', true);
   },
 
   keyDown(event) {
@@ -166,7 +181,12 @@ export default Ember.Component.extend({
     } else if (event.keyCode === 13) {
       // Enter
       this.sendAction('enter', this, event);
-      this.sendAction('insert-newline', this, event);
+      if (this.get('allowNewlines')) {
+        this.sendAction('insert-newline', this, event);
+      } else {
+        event.preventDefault();
+        return false;
+      }
     }
 
     this.sendAction('key-down', this.get('value'), event);
