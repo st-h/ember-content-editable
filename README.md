@@ -41,7 +41,7 @@ spellcheck           | Uses browsers spellcheck, same as with `<input>` | none
 readonly             | If true, element can't be edited but is focusable | false
 disabled             | If true, element can't be edited, focused or tabbed to | false
 maxlength            | Maximum length of the input, in characters     | none
-allowNewlines        | If false, linebreaks can't be entered          | false
+allowNewlines        | If false, linebreaks can't be entered          | true
 
 ##### isText Deprecation
 isText has been deprecated. You should replace `isText=true` with `type="text"`, and `isText=false` with `type="html"`.
