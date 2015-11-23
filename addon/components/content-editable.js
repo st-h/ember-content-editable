@@ -84,8 +84,29 @@ export default Ember.Component.extend({
       val = this.$('<div/>').html(val).text();
       return val;
     } else {
-      return this.element.innerText || this.element.textContent;
+      return this.element.innerText || this._innerTextFallback(this.element);
     }
+  },
+  
+   _innerTextFallback(node) {
+    var selection = window.getSelection(),
+        ranges    = [],
+        str;
+
+    for (var i = 0; i < selection.rangeCount; i++) {
+      ranges[i] = selection.getRangeAt(i);
+    }
+
+    selection.removeAllRanges();
+    selection.selectAllChildren(node);
+    str = selection.toString();
+    selection.removeAllRanges();
+
+    for (var i = 0; i < ranges.length; i++) {
+      selection.addRange(ranges[i]);
+    }
+
+    return str;
   },
 
   _processInput() {
