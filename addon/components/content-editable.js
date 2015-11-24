@@ -146,7 +146,7 @@ export default Ember.Component.extend({
         _this.set('value', newVal);
 
         var range = document.createRange();
-        range.setStart(_this.element.childNodes[0], start + freeSpace);
+        range.setStart(_this.element.childNodes[0], start + content.length);
         var sel = window.getSelection();
         range.collapse(true);
         sel.removeAllRanges();
