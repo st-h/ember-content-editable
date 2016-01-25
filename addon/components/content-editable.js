@@ -32,6 +32,7 @@ export default Ember.Component.extend({
   type: null,
   readonly: null,
   allowNewlines: true,
+  autofocus: false,
 
   inputType: Ember.computed('type', 'isText', function() {
     if (this.get('isText') !== null) {
@@ -56,6 +57,10 @@ export default Ember.Component.extend({
     this.$().on('paste', (event) => {
       this.handlePaste(event, this);
     });
+    
+    if (this.get('autofocus')) {
+      this.$().focus();
+    }
   }),
 
   tidy: Ember.on('willDestroyElement', function() {
