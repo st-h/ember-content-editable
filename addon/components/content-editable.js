@@ -71,7 +71,7 @@ export default Ember.Component.extend({
 
   setValue() {
     if (this.element) {
-      this.$().text(this.get('value'));
+      this.$().text(this.get('value') || '');
     }
   },
 
