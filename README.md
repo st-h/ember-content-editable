@@ -42,6 +42,7 @@ readonly             | If true, element can't be edited but is focusable | false
 disabled             | If true, element can't be edited, focused or tabbed to | false
 maxlength            | Maximum length of the input, in characters     | none
 allowNewlines        | If false, linebreaks can't be entered          | true
+autofocus            | If true, the element will be focused once inserted into the document | false
 
 ##### isText Deprecation
 isText has been deprecated. You should replace `isText=true` with `type="text"`, and `isText=false` with `type="html"`.
