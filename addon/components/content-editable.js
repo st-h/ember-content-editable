@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['ember-content-editable'],
-  classNameBindings: ['extraClass'],
+  classNameBindings: ['extraClass', 'clearPlaceholderOnFocus:clear-on-focus'],
   attributeBindings: [
     'contenteditable',
     'placeholder',
@@ -33,6 +33,7 @@ export default Ember.Component.extend({
   readonly: null,
   allowNewlines: true,
   autofocus: false,
+  clearPlaceholderOnFocus: false,
 
   inputType: Ember.computed('type', 'isText', function() {
     if (this.get('isText') !== null) {
@@ -57,7 +58,7 @@ export default Ember.Component.extend({
     this.$().on('paste', (event) => {
       this.handlePaste(event, this);
     });
-    
+
     if (this.get('autofocus')) {
       this.$().focus();
     }

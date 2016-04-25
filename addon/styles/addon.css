@@ -1,5 +1,10 @@
-[contenteditable=true]:empty:not(:focus):before {
+[contenteditable=true]:empty:not(:focus):before,
+[contenteditable=true]:focus:empty:before {
   content: attr(placeholder);
+}
+
+.ember-content-editable.clear-on-focus[contenteditable=true]:empty:focus:before {
+  content: '';
 }
 
 [contenteditable=true] {
