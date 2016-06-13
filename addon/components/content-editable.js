@@ -139,6 +139,9 @@ export default Ember.Component.extend({
     const currentVal = _this._getInputValue();    
     const type = this.get('type');
 
+    if (type !== 'html' && value.indexOf('<') !== -1) {
+        content = Ember.$(Ember.$.parseHTML(content)).text();
+    }
 
     if (!Ember.isEmpty(_this.get('maxlength'))) {
       event.preventDefault();
@@ -168,10 +171,6 @@ export default Ember.Component.extend({
 
     if (!this.get('allowNewlines')) {
       value = value.toString().replace(/\n/g, ' ');
-    }
-
-    if (type !== 'html' && value.indexOf('<') !== -1) {
-        value = Ember.$(Ember.$.parseHTML(value)).text();
     }
 
     if (type === 'number') {
