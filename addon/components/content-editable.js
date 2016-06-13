@@ -136,7 +136,9 @@ export default Ember.Component.extend({
   /* Events */
   handlePaste(event, _this) {
     let content = event.originalEvent.clipboardData.getData('text');
-    const currentVal = _this._getInputValue();
+    const currentVal = _this._getInputValue();    
+    const type = this.get('type');
+
 
     if (!Ember.isEmpty(_this.get('maxlength'))) {
       event.preventDefault();
@@ -161,13 +163,18 @@ export default Ember.Component.extend({
     }
 
     var value = this.get('value');
+    
     this.set('_observeValue', false);
 
     if (!this.get('allowNewlines')) {
       value = value.toString().replace(/\n/g, ' ');
     }
 
-    if (this.get('type') === 'number') {
+    if (type !== 'html' && value.indexOf('<') !== -1) {
+        value = Ember.$(Ember.$.parseHTML(string)).text();
+    }
+
+    if (type === 'number') {
       value = value.toString().replace(/[^0-9]/g, '');
     }
 
