@@ -171,7 +171,7 @@ export default Ember.Component.extend({
     }
 
     if (type !== 'html' && value.indexOf('<') !== -1) {
-        value = Ember.$(Ember.$.parseHTML(string)).text();
+        value = Ember.$(Ember.$.parseHTML(value)).text();
     }
 
     if (type === 'number') {
