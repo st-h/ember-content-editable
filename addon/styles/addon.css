@@ -1,5 +1,5 @@
-[contenteditable=true]:empty:not(:focus):before,
-[contenteditable=true]:focus:empty:before {
+[contenteditable]:empty:not(:focus):before,
+[contenteditable]:focus:empty:before {
   content: attr(placeholder);
 }
 
@@ -7,7 +7,7 @@
   content: '';
 }
 
-[contenteditable=true] {
+[contenteditable] {
   cursor: text;
 }
 
