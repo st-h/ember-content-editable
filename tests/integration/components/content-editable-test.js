@@ -233,7 +233,7 @@ test('editable property is alias for contenteditable', function(assert) {
   assert.expect(1);
   this.render(hbs`{{content-editable editable=true}}`);
   const $element = this.$('.ember-content-editable');
-  assert.ok($element.attr('contenteditable') === "true");
+  assert.ok($element.prop('contenteditable') === "true");
 });
 
 test('value binding for editable works', function(assert) {
@@ -241,10 +241,10 @@ test('value binding for editable works', function(assert) {
   this.set('editable', false);
   this.render(hbs`{{content-editable editable=editable}}`);
   const $element = this.$('.ember-content-editable');
-  assert.ok($element.attr('contenteditable') === "false");
+  assert.ok($element.prop('contenteditable') === "inherit");
 
   this.set('editable', true);
-  assert.ok($element.attr('contenteditable') === "true");
+  assert.ok($element.prop('contenteditable') === "true");
 });
 
 test('disabled attribute works', function(assert) {
@@ -252,7 +252,7 @@ test('disabled attribute works', function(assert) {
   this.render(hbs`{{content-editable disabled=true}}`);
   const $element = this.$('.ember-content-editable');
 
-  assert.equal($element.attr('contenteditable'), "false");
+  assert.equal($element.prop('contenteditable'), "inherit");
 });
 
 test('readonly attribute works', function(assert) {
@@ -264,7 +264,7 @@ test('readonly attribute works', function(assert) {
   this.render(hbs`{{content-editable readonly=true key-press=keyPress}}`);
   const $element = this.$('.ember-content-editable');
 
-  assert.equal($element.attr('contenteditable'), "true");
+  assert.equal($element.prop('contenteditable'), "true");
   $element.trigger($.Event("keypress", { keyCode: 65 }));
 });
 
