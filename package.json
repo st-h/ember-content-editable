@@ -1,6 +1,6 @@
 {
   "name": "ember-content-editable",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "A content-editable component for ember-cli that just works.",
   "directories": {
     "doc": "doc",
