@@ -241,7 +241,7 @@ test('value binding for editable works', function(assert) {
   this.set('editable', false);
   this.render(hbs`{{content-editable editable=editable}}`);
   const $element = this.$('.ember-content-editable');
-  assert.ok($element.prop('contenteditable') === "inherit");
+  assert.ok($element.prop('contenteditable') === "inherit" || $element.prop('contenteditable') === "false");
 
   this.set('editable', true);
   assert.ok($element.prop('contenteditable') === "true");
@@ -252,7 +252,7 @@ test('disabled attribute works', function(assert) {
   this.render(hbs`{{content-editable disabled=true}}`);
   const $element = this.$('.ember-content-editable');
 
-  assert.equal($element.prop('contenteditable'), "inherit");
+  assert.ok($element.prop('contenteditable') === "inherit" || $element.prop('contenteditable') === "false");
 });
 
 test('readonly attribute works', function(assert) {
