@@ -136,8 +136,15 @@ export default Ember.Component.extend({
   /* Events */
   handlePaste(event, _this) {
     let content = event.originalEvent.clipboardData.getData('text');
+    
+    if (!Ember.isNone(content) && Ember.isEmpty(content.trim())){
+      // Pasting empty strings into a contentEditable causes issues as it is truncated.
+      // Skip handling in this case.
+      return;
+    }
+    
     const currentVal = _this._getInputValue();
-
+   
     if (!Ember.isEmpty(_this.get('maxlength'))) {
       event.preventDefault();
 
