@@ -140,7 +140,7 @@ export default Ember.Component.extend({
     if (!Ember.isNone(content) && Ember.isEmpty(content.trim())){
       // Pasting empty strings into a contentEditable causes issues as it is truncated.
       // Skip handling in this case.
-      return
+      return;
     }
     
     const currentVal = _this._getInputValue();
