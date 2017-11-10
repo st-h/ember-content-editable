@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 export default function(app, selector, content) {
   return andThen(() => {
     return app.testHelpers.click(selector);

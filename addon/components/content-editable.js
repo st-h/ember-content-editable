@@ -1,6 +1,12 @@
-import Ember from 'ember';
+import { isEmpty } from '@ember/utils';
+import { htmlSafe } from '@ember/string';
+import { once } from '@ember/runloop';
+import { on } from '@ember/object/evented';
+import { deprecate } from '@ember/application/deprecations';
+import { computed, observer } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['ember-content-editable'],
   classNameBindings: ['extraClass', 'clearPlaceholderOnFocus:clear-on-focus'],
   attributeBindings: [
@@ -11,13 +17,13 @@ export default Ember.Component.extend({
     'readonly',
     'disabled'
   ],
-  contenteditable: Ember.computed('editable', 'disabled', function() {
+  contenteditable: computed('editable', 'disabled', function() {
     if (this.get('editable') !== null) {
       if (this.get('editable')) {
-        Ember.deprecate("You set editable=true on content-editable, " +
+        deprecate("You set editable=true on content-editable, " +
             "but this has been deprecated in favour of disabled=false");
       } else {
-        Ember.deprecate("You set editable=false on content-editable, " +
+        deprecate("You set editable=false on content-editable, " +
             "but this has been deprecated in favour of disabled=true");
       }
       return this.get('editable');
@@ -35,14 +41,14 @@ export default Ember.Component.extend({
   autofocus: false,
   clearPlaceholderOnFocus: false,
 
-  inputType: Ember.computed('type', 'isText', function() {
+  inputType: computed('type', 'isText', function() {
     if (this.get('isText') !== null) {
       if (this.get('isText')) {
-        Ember.deprecate("You set isText=true on content-editable, " +
+        deprecate("You set isText=true on content-editable, " +
             "but this has been deprecated in favour of type='text'");
         return "text";
       } else {
-        Ember.deprecate("You set isText=false on content-editable, " +
+        deprecate("You set isText=false on content-editable, " +
             "but this has been deprecated in favour of type='html'");
         return "html";
       }
@@ -51,9 +57,9 @@ export default Ember.Component.extend({
     }
   }),
 
-  setup: Ember.on('didInsertElement', function() {
+  setup: on('didInsertElement', function() {
     this.setValue();
-    Ember.run.once(() => this._processInput());
+    once(() => this._processInput());
 
     this.$().on('paste', (event) => {
       this.handlePaste(event, this);
@@ -64,12 +70,12 @@ export default Ember.Component.extend({
     }
   }),
 
-  tidy: Ember.on('willDestroyElement', function() {
+  tidy: on('willDestroyElement', function() {
     this.$().off('paste');
   }),
 
   _observeValue: true,
-  valueChanged: Ember.observer('value', function() {
+  valueChanged: observer('value', function() {
     if (this.get('_observeValue')) {
       this.setValue();
     }
@@ -106,20 +112,18 @@ export default Ember.Component.extend({
 
   htmlSafe(val) {
     if (this.get('inputType') === "html") {
-      return Ember.String.htmlSafe(val).toString();
+      return htmlSafe(val).toString();
     } else {
       return val;
     }
   },
 
   isUnderMaxLength(val) {
-    return (
-        Ember.isEmpty(this.get('maxlength')) ||
-        val.length < this.get('maxlength')
-    );
+    return isEmpty(this.get('maxlength')) ||
+    val.length < this.get('maxlength');
   },
 
-  updateValue: Ember.on('keyUp', function(event) {
+  updateValue: on('keyUp', function(event) {
     this._processInput();
     this.handleKeyUp(event);
   }),
@@ -138,7 +142,7 @@ export default Ember.Component.extend({
     let content = event.originalEvent.clipboardData.getData('text');
     const currentVal = _this._getInputValue();
 
-    if (!Ember.isEmpty(_this.get('maxlength'))) {
+    if (!isEmpty(_this.get('maxlength'))) {
       event.preventDefault();
 
       if (window.getSelection().rangeCount > 0) {

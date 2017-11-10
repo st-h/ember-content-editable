@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { registerAsyncHelper } from '@ember/test';
 import fillContentEditable from './fill-content-editable';
-
-const { Test: { registerAsyncHelper }} = Ember;
 
 export default function() {
   registerAsyncHelper('fillContentEditable', fillContentEditable);

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import startApp from '../../tests/helpers/start-app';
 
@@ -10,7 +10,7 @@ module('Acceptance | application', {
   },
 
   afterEach: function() {
-    Ember.run(application, 'destroy');
+    run(application, 'destroy');
   }
 });
 
