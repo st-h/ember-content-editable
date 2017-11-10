@@ -21,10 +21,16 @@ export default Component.extend({
     if (this.get('editable') !== null) {
       if (this.get('editable')) {
         deprecate("You set editable=true on content-editable, " +
-            "but this has been deprecated in favour of disabled=false");
+            "but this has been deprecated in favour of disabled=false", false, {
+              id: "ember-content-editable_editable-param",
+              until: "1.0.0"
+            });
       } else {
         deprecate("You set editable=false on content-editable, " +
-            "but this has been deprecated in favour of disabled=true");
+            "but this has been deprecated in favour of disabled=true", false, {
+              id: "ember-content-editable_editable-param",
+              until: "1.0.0"
+            });
       }
       return this.get('editable');
     } else {
@@ -45,11 +51,17 @@ export default Component.extend({
     if (this.get('isText') !== null) {
       if (this.get('isText')) {
         deprecate("You set isText=true on content-editable, " +
-            "but this has been deprecated in favour of type='text'");
+            "but this has been deprecated in favour of type='text'", false, {
+              id: "ember-content-editable_isText-param",
+              until: "1.0.0"
+            });
         return "text";
       } else {
         deprecate("You set isText=false on content-editable, " +
-            "but this has been deprecated in favour of type='html'");
+            "but this has been deprecated in favour of type='html'", false, {
+              id: "ember-content-editable_isText-param",
+              until: "1.0.0"
+            });
         return "html";
       }
     } else {
