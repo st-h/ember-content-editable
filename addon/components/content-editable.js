@@ -95,7 +95,12 @@ export default Component.extend({
 
   setValue() {
     if (this.element) {
-      this.$().text(this.get('value'));
+      if (this.type === 'html') {
+        this.$().html(this.get('value'));
+      }
+      else {
+        this.$().text(this.get('value'));  
+      }
     }
   },
 
