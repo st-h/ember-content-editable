@@ -32,7 +32,7 @@ You can also pass in an extra CSS class if required, and of course specify the t
                    tagName="h3"}}
 ```
 
-### Options
+### Options
 
 Option Name          | Description                                    | Default
 ---------------------|------------------------------------------------|---------
@@ -79,7 +79,7 @@ For example:
                    enter="save"}}
 ```
 
-### Customizing Placeholder Color
+### Customizing Placeholder Color
 ```
 .ember-content-editable:empty {
   color: rgba(0,0,0,0.6);
@@ -89,7 +89,7 @@ For example:
 ## Common Problems
 These are some solutions to common problems browsers have with contenteditable elements.
 
-### Filtering Input
+### Filtering Input
 If you want to filter the input, you can achieve this using the `key-press` event.
 
 The following example filters the input to only allow numerical values.
@@ -107,7 +107,7 @@ The following example filters the input to only allow numerical values.
   },
 ```
 
-### Extra Tags
+### Extra Tags
 Some browsers have a bug where extra tags including `<div>`s get inserted into contenteditable fields, usually when newlines are entered.
 
 1) If you don't care about any tags, use `type="text"` to strip all of them.
@@ -127,7 +127,7 @@ The `tabindex` attribute is bound to the element in the DOM, but only [certain t
 
 So to use `tabindex`, you'll also need to set `tagName` to one of those.
 
-### Newlines aren't showing
+### Newlines aren't showing
 Try using `whitespace: pre-line;` or `whitespace: pre-wrap;` in your CSS.
 
 ### I can't blur the element
