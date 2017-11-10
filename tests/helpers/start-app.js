@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { merge } from '@ember/polyfills';
 import Application from '../../app';
 import config from '../../config/environment';
-import registerHelpers from './register-helpers';
+import './fill-content-editable';
 
 export default function startApp(attrs) {
   let application;
@@ -12,7 +12,6 @@ export default function startApp(attrs) {
 
   run(() => {
     application = Application.create(attributes);
-    registerHelpers();
     application.setupForTesting();
     application.injectTestHelpers();
   });

@@ -1,18 +1,7 @@
-import { run } from '@ember/runloop';
-import { module, test } from 'qunit';
-import startApp from '../../tests/helpers/start-app';
+import { test } from 'qunit';
+import moduleForAcceptance from '../helpers/module-for-acceptance';
 
-var application;
-
-module('Acceptance | application', {
-  beforeEach: function() {
-    application = startApp();
-  },
-
-  afterEach: function() {
-    run(application, 'destroy');
-  }
-});
+moduleForAcceptance('Acceptance | login');
 
 test('visiting /', function(assert) {
   visit('/');
