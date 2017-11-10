@@ -1,9 +1,6 @@
 import { isEmpty } from '@ember/utils';
 import { htmlSafe } from '@ember/string';
 import { once } from '@ember/runloop';
-import { on } from '@ember/object/evented';
-import { deprecate } from '@ember/application/deprecations';
-import { computed, observer } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -17,26 +14,7 @@ export default Component.extend({
     'readonly',
     'disabled'
   ],
-  contenteditable: computed('editable', 'disabled', function() {
-    if (this.get('editable') !== null) {
-      if (this.get('editable')) {
-        deprecate("You set editable=true on content-editable, " +
-            "but this has been deprecated in favour of disabled=false", false, {
-              id: "ember-content-editable_editable-param",
-              until: "1.0.0"
-            });
-      } else {
-        deprecate("You set editable=false on content-editable, " +
-            "but this has been deprecated in favour of disabled=true", false, {
-              id: "ember-content-editable_editable-param",
-              until: "1.0.0"
-            });
-      }
-      return this.get('editable');
-    } else {
-      return !this.get('disabled');
-    }
-  }),
+
   editable: null,
   disabled: null,
   spellcheck: null,
@@ -47,29 +25,22 @@ export default Component.extend({
   autofocus: false,
   clearPlaceholderOnFocus: false,
 
-  inputType: computed('type', 'isText', function() {
-    if (this.get('isText') !== null) {
-      if (this.get('isText')) {
-        deprecate("You set isText=true on content-editable, " +
-            "but this has been deprecated in favour of type='text'", false, {
-              id: "ember-content-editable_isText-param",
-              until: "1.0.0"
-            });
-        return "text";
-      } else {
-        deprecate("You set isText=false on content-editable, " +
-            "but this has been deprecated in favour of type='html'", false, {
-              id: "ember-content-editable_isText-param",
-              until: "1.0.0"
-            });
-        return "html";
-      }
-    } else {
-      return this.get('type') || "html";
-    }
-  }),
+  _observeValue: true,
 
-  setup: on('didInsertElement', function() {
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    this.set('contenteditable', !this.get('disabled'));
+    this.set('inputType', this.get('type') || 'html');
+
+    if (this.get('_observeValue')) {
+      this.setValue();
+    }
+  },
+
+  didInsertElement() {
+    this._super(...arguments);
+
     this.setValue();
     once(() => this._processInput());
 
@@ -80,18 +51,13 @@ export default Component.extend({
     if (this.get('autofocus')) {
       this.$().focus();
     }
-  }),
+  },
 
-  tidy: on('willDestroyElement', function() {
+  willDestroyElement() {
+    this._super(...arguments);
+
     this.$().off('paste');
-  }),
-
-  _observeValue: true,
-  valueChanged: observer('value', function() {
-    if (this.get('_observeValue')) {
-      this.setValue();
-    }
-  }),
+  },
 
   setValue() {
     if (this.element) {
@@ -135,10 +101,10 @@ export default Component.extend({
     val.length < this.get('maxlength');
   },
 
-  updateValue: on('keyUp', function(event) {
+  keyUp(event) {
     this._processInput();
     this.handleKeyUp(event);
-  }),
+  },
 
   handleKeyUp(event) {
     if (this.get('readonly')) {

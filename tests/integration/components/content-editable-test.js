@@ -115,14 +115,6 @@ test('type=html preserves html', function(assert) {
   assert.equal(this.get("value"), "<b>baller</b>", "html not stripped from value");
 });
 
-test('isText=false preserves html', function(assert) {
-  assert.expect(1);
-  this.set("value", "<b>baller</b>");
-  this.render(hbs`{{content-editable value=value placeholder="bananas" isText=false}}`);
-
-  assert.equal(this.get("value"), "<b>baller</b>", "html not stripped from value");
-});
-
 test('extraClass added to DOM', function(assert) {
   assert.expect(1);
   this.render(hbs`{{content-editable extraClass="dinosaurs"}}`);
@@ -225,24 +217,6 @@ test('mouse events are triggered', function(assert) {
 
   $element.mouseenter();
   $element.mouseleave();
-});
-
-test('editable property is alias for contenteditable', function(assert) {
-  assert.expect(1);
-  this.render(hbs`{{content-editable editable=true}}`);
-  const $element = this.$('.ember-content-editable');
-  assert.ok($element.prop('contenteditable') === "true");
-});
-
-test('value binding for editable works', function(assert) {
-  assert.expect(2);
-  this.set('editable', false);
-  this.render(hbs`{{content-editable editable=editable}}`);
-  const $element = this.$('.ember-content-editable');
-  assert.ok($element.prop('contenteditable') === "inherit" || $element.prop('contenteditable') === "false");
-
-  this.set('editable', true);
-  assert.ok($element.prop('contenteditable') === "true");
 });
 
 test('disabled attribute works', function(assert) {
