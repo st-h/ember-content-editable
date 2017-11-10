@@ -1,7 +1,11 @@
-[![npm version](https://badge.fury.io/js/ember-content-editable.svg)](http://badge.fury.io/js/ember-content-editable)
-[![build status](https://travis-ci.org/AddJam/ember-content-editable.svg)](https://travis-ci.org/AddJam/ember-content-editable)
-
 # ember-content-editable
+
+[![Latest NPM release][npm-badge]][npm-badge-url]
+[![TravisCI Build Status][travis-badge]][travis-badge-url]
+[![Code Climate][codeclimate-badge]][codeclimate-badge-url]
+[![Ember Observer Score][ember-observer-badge]][ember-observer-badge-url]
+[![Dependencies][dependencies-badge]][dependencies-badge-url]
+[![Dev Dependencies][devDependencies-badge]][devDependencies-badge-url]
 
 Ember cli content-editable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you. It also works in [almost all browsers](http://caniuse.com/contenteditable).
 
@@ -142,14 +146,29 @@ endEditing(contentEditable, event) {
 ### Cursor appears too big when element is empty
 Setting `display: block;` in CSS seems to solve this.
 
-## License
+## Acknowledements
 
-The MIT License (MIT)
+This addon has initially been created and maintained by [AddJAm](https://github.com/AddJAm).
 
-Copyright (c) 2015
+## Contributions
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The current maintainer (st-h) tries to do his best to maintain this addon in the ember communities interest by keeping dependencies up to date and keeping current features working.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+If you want to report a bug, please open a new issue. Any bugs that are not totally obvious should include a way to reproduce the issue (like ember-twiddle) or a failing test. Or even better, provide a PR which tests and fixes the issue.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+In case you find there is a feature missing, please provide a PR with corresponding test coverage. Please keep in mind to keep addons lightweight. If in doubt, open an issue first and see what others think about it.
+
+If you want to help in taking care of this addon, just let us know.
+
+[npm-badge]: https://img.shields.io/npm/v/ember-content-editable.svg
+[npm-badge-url]: https://www.npmjs.com/package/ember-content-editable
+[travis-badge]: https://img.shields.io/travis/st-h/ember-content-editable/master.svg?label=TravisCI
+[travis-badge-url]: https://travis-ci.org/st-h/ember-content-editable
+[codeclimate-badge]: https://api.codeclimate.com/v1/badges/8688ab1cea89cb7cb918/maintainability
+[codeclimate-badge-url]: https://codeclimate.com/github/st-h/ember-content-editable/maintainability
+[ember-observer-badge]: http://emberobserver.com/badges/ember-content-editable.svg
+[ember-observer-badge-url]: http://emberobserver.com/addons/ember-content-editable
+[dependencies-badge]: https://img.shields.io/david/st-h/ember-content-editable.svg
+[dependencies-badge-url]: https://david-dm.org/st-h/ember-content-editable
+[devDependencies-badge]: https://img.shields.io/david/dev/st-h/ember-content-editable.svg
+[devDependencies-badge-url]: https://david-dm.org/st-h/ember-content-editable#info=devDependencies
