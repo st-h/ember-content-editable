@@ -307,3 +307,30 @@ test('allowNewlines=false works', function(assert) {
   $element.trigger($.Event("keydown", { keyCode: 13})); // Enter
   $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
 });
+
+test('Pasting works', async function(assert) {
+  assert.expect(1);
+  this.set('value', "");
+
+  //Make mock event
+  let event = document.createEvent("CustomEvent");
+  event.initCustomEvent('paste', true, true, null);
+  event.originalEvent = {
+    clipboardData: {
+      getData() {
+        return 'Pasted text';
+      }
+    }
+  };
+  event.preventDefault = function() {
+      //do nothing
+  };
+
+  this.render(hbs`{{content-editable value=value maxlength='2000' class='jsTest-contentEditable'}}`);
+  const $element = this.$('.ember-content-editable');
+  await this.$('.jsTest-contentEditable').focus();
+
+  await $element.trigger($.Event('paste', event)); // paste fake event
+  assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+
+});

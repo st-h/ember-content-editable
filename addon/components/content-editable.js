@@ -148,35 +148,49 @@ export default Component.extend({
 
     this.sendAction('key-up', this.get('value'), event);
   },
+ insertTextAtCursor(text) {
+    let sel, range;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+            /** Paste text **/
+            range.insertNode(document.createTextNode(text));
+            range.collapse(false);
+            /** use the values of the updated range object to reset it start position **/
+            range.setStart(range.endContainer,range.endOffset);
+            /** collapse it to turn it into a single cursor **/
+            range.collapse(true);
+            /** remove everything **/
+            sel.removeAllRanges();
+            /** add our fresh range **/
+            sel.addRange(range);
+        }
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().text = text;
+    }
+  },
 
   /* Events */
   handlePaste(event, _this) {
     let content = event.originalEvent.clipboardData.getData('text');
     const currentVal = _this._getInputValue();
 
-    if (!isEmpty(_this.get('maxlength'))) {
-      event.preventDefault();
+    event.preventDefault();
 
-      if (window.getSelection().rangeCount > 0) {
-        let start = window.getSelection().getRangeAt(0).startOffset;
-        let end = window.getSelection().getRangeAt(0).endOffset;
+    if (window.getSelection().rangeCount > 0) {
+      //If in focus then allow paste
+      let start = window.getSelection().getRangeAt(0).startOffset;
+      let end = window.getSelection().getRangeAt(0).endOffset;
 
-        let freeSpace = _this.get('maxlength') - currentVal.length + (end - start);
-        content = content.substring(0, freeSpace);
+      let freeSpace = _this.get('maxlength') - currentVal.length + (end - start);
+      content = content.substring(0, freeSpace);
 
-        let newVal = currentVal.substring(0, start) + content + currentVal.substring(end, _this.get('maxlength'));
-        _this.set('value', newVal);
-
-        var range = document.createRange();
-        range.setStart(_this.element.childNodes[0], start + content.length);
-        var sel = window.getSelection();
-        range.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(range);
-      }
+      this.insertTextAtCursor(content);
     }
 
-    var value = this.get('value');
+    let value = _this._getInputValue();
     this.set('_observeValue', false);
 
     if (!this.get('allowNewlines')) {
