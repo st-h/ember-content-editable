@@ -308,7 +308,7 @@ test('allowNewlines=false works', function(assert) {
   $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
 });
 
-test('Pasting works', async function(assert) {
+test('Pasting works', function(assert) {
   assert.expect(1);
   this.set('value', "");
 
@@ -328,9 +328,9 @@ test('Pasting works', async function(assert) {
 
   this.render(hbs`{{content-editable value=value maxlength='2000' class='jsTest-contentEditable'}}`);
   const $element = this.$('.ember-content-editable');
-  await this.$('.jsTest-contentEditable').focus();
-
-  await $element.trigger($.Event('paste', event)); // paste fake event
+  this.$('.jsTest-contentEditable').focus();
+  $element.trigger($.Event('paste', event)); // paste fake event
   assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+
 
 });
