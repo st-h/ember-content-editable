@@ -185,7 +185,10 @@ export default Component.extend({
       let end = window.getSelection().getRangeAt(0).endOffset;
 
       let freeSpace = _this.get('maxlength') - currentVal.length + (end - start);
-      content = content.substring(0, freeSpace);
+      if (_this.get('maxlength')) {
+        //Truncate content if there is a maxlength and content is larger than it
+        content = content.substring(0, freeSpace);
+      }
 
       this.insertTextAtCursor(content);
     }
