@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   name: "<b>yo<i>lo</i></b> yup",
+  htmlText: '<div>In a div</div>',
 
   filter(currentValue, event) {
     var k = event.which;

@@ -1,9 +1,17 @@
-<h1>Content Editable Component</h1>
+<h1>Content Editable Component - Text</h1>
 
-{{content-editable value=name placeholder="Name" type="text" maxlength=2000}}
+{{content-editable value=name placeholder="Name" type="text" maxlength=2000 class="u-whiteSpacePre jsTest-textInput"}}
 
 <h1>Input</h1>
 {{input value=name spellcheck=true}}
 
-<h1>Label</h1>
-<p>{{name}}</p>
+<h1>Text output</h1>
+<p class="u-whiteSpacePre jsTest-textOutput">{{name}}</p>
+
+
+<h1>Content Editable Component - HTML</h1>
+
+{{content-editable value=htmlText placeholder="HTML text" type="html" }}
+
+<h1>HTML output</h1>
+<p>{{{htmlText}}}</p>
