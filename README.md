@@ -21,7 +21,7 @@ As this addon has recently changed ownership, this section gives a rough overvie
 
 **0.11.x**: updates dependencies and keeps the previous implementation wherever possible
 
-**1.0.0**: will be an upcoming release, which makes use of the updated ember component api. Any features deprecated in 0.11.x or earlier will be removed. Please contribute to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch. Release date is not set yet.
+**1.0.0**: will be an upcoming release, which makes use of the updated ember component api. Any features deprecated in 0.11.x or earlier will be removed. Please contribute to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch or join the discussion regarding breaking changes withing this [issue](https://github.com/st-h/ember-content-editable/issues/36). Release date is not set yet.
 
 ## Usage
 
