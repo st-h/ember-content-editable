@@ -13,6 +13,16 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 
 `ember install ember-content-editable`
 
+### Versions
+
+As this addon has recently changed ownership, this section gives a rough overview over the latest releases and plans for the future.
+
+**0.10.0**: last release by [AddJAm](https://github.com/AddJAm) 
+
+**0.11.x**: updates dependencies and keeps the previous implementation wherever possible
+
+**1.0.0**: will be an upcoming release, which makes use of the updated ember component api. Any features deprecated in 0.11.x or earlier will be removed. Please contribute to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch or join the discussion regarding breaking changes withing this [issue](https://github.com/st-h/ember-content-editable/issues/36). Release date is not set yet.
+
 ## Usage
 
 Use it just like `input` or `textarea`.
@@ -148,7 +158,7 @@ Setting `display: block;` in CSS seems to solve this.
 
 ## Acknowledements
 
-This addon has initially been created and maintained by [AddJAm](https://github.com/AddJAm).
+[AddJAm](https://github.com/AddJAm) has done a great job writing and maintaining this addon for a long time. Thanks guys.
 
 ## Contributions
 

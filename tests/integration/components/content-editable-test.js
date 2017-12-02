@@ -7,6 +7,20 @@ function getPlaceholderContent(element) {
   return placeholderContent.replace(/"/g, ""); // presence of quotes varies in phantomjs vs chrome
 }
 
+//Make mock event
+const pasteEvent = document.createEvent("CustomEvent");
+pasteEvent.initCustomEvent('paste', true, true, null);
+pasteEvent.originalEvent = {
+  clipboardData: {
+    getData() {
+      return 'Pasted text';
+    }
+  }
+};
+pasteEvent.preventDefault = function() {
+    //do nothing
+};
+
 moduleForComponent('content-editable', 'Integration | Component | content editable', {
   integration: true
 });
@@ -280,4 +294,29 @@ test('allowNewlines=false works', function(assert) {
 
   $element.trigger($.Event("keydown", { keyCode: 13})); // Enter
   $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
+});
+
+test('Pasting works for text', function(assert) {
+  assert.expect(1);
+  this.set('value', "");
+
+
+  this.render(hbs`{{content-editable value=value maxlength='2000' class='jsTest-contentEditable'}}`);
+  const $element = this.$('.ember-content-editable');
+  this.$('.jsTest-contentEditable').focus();
+  $element.trigger($.Event('paste', pasteEvent)); // paste fake event
+  assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+
+});
+
+test('Pasting works for html with no maxlength', function(assert) {
+  assert.expect(1);
+  this.set('value', "");
+
+  this.render(hbs`{{content-editable value=value type='html' class='jsTest-contentEditable '}}`);
+  const $element = this.$('.ember-content-editable');
+  this.$('.jsTest-contentEditable').focus();
+  $element.trigger($.Event('paste', pasteEvent)); // paste fake event
+  assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+
 });
