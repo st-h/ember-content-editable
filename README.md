@@ -1,7 +1,6 @@
 # ember-content-editable
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/st-h/ember-content-editable.svg)](https://greenkeeper.io/)
-
 [![Latest NPM release][npm-badge]][npm-badge-url]
 [![TravisCI Build Status][travis-badge]][travis-badge-url]
 [![Code Climate][codeclimate-badge]][codeclimate-badge-url]
