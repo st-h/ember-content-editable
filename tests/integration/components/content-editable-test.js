@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import wait from 'ember-test-helpers/wait';
 
 function getPlaceholderContent(element) {
   let placeholderContent = window.getComputedStyle(element, '::before').content;
@@ -33,6 +34,7 @@ test('it renders', function(assert) {
   assert.equal(this.$().text(), '');
   assert.equal(this.$('.ember-content-editable').length, 1);
 
+
   // Template block usage:
   this.render(hbs`
     {{#content-editable}}
@@ -40,7 +42,10 @@ test('it renders', function(assert) {
     {{/content-editable}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  return wait().then(() => {
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+
 });
 
 test('placeholder renders and stays on focus until the element has content', function(assert) {

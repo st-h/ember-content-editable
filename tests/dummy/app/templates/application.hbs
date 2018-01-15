@@ -1,17 +1,18 @@
-<h1>Content Editable Component - Text</h1>
+<h1>ember-content-editable</h1>
 
-{{content-editable value=name placeholder="Name" type="text" maxlength=2000 class="u-whiteSpacePre jsTest-textInput"}}
+<h2>type=text</h2>
 
-<h1>Input</h1>
-{{input value=name spellcheck=true}}
+{{content-editable value=name placeholder="Name" type="text" mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
+                   maxlength=2000 id="text-input" class="important" autofocus=true}}
 
-<h1>Text output</h1>
-<p class="u-whiteSpacePre jsTest-textOutput">{{name}}</p>
+<div class="jsTest-textOutput">
+  <div>mouse is inside: {{mouseInside}}</div>
+  output: <pre id="text-output">{{name}}</pre>
+</div>
 
 
-<h1>Content Editable Component - HTML</h1>
+<h2>type=number</h2>
 
-{{content-editable value=htmlText placeholder="HTML text" type="html" }}
+{{content-editable value=number placeholder="enter credit card here..." type="number" id="number-input"}}
 
-<h1>HTML output</h1>
-<p>{{{htmlText}}}</p>
+<div>output: <pre id="number-output">{{number}}</pre></div>

@@ -16,13 +16,9 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 
 ### Versions
 
-As this addon has recently changed ownership, this section gives a rough overview over the latest releases and plans for the future.
+**0.11.1** is the last stable version making use of the codebase used by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember releases.
 
-**0.10.0**: last release by [AddJAm](https://github.com/AddJAm) 
-
-**0.11.x**: updates dependencies and keeps the previous implementation wherever possible
-
-**1.0.0**: will be an upcoming release, which makes use of the updated ember component api. Any features deprecated in 0.11.x or earlier will be removed. Please contribute to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch or join the discussion regarding breaking changes withing this [issue](https://github.com/st-h/ember-content-editable/issues/36). Release date is not set yet.
+**1.0.0-alpha1** is a complete rewrite, which removes jquery dependencies and all ember legacy stuff like observers and computed properties. This version also removes support for type 'html' and puts its focus on being a drop in replacement for input and textarea elements. Please see this [issue](https://github.com/st-h/ember-content-editable/issues/36) for further details and to provide feedback. Or just contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch.
 
 ## Usage
 
@@ -51,7 +47,7 @@ value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
 stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the string to be used instead.           | none
 class                | String with any extra css class               | none
-type                 | `number`, `text`, or `html`. `text` strips out any html tags, `html` doesn't.                    | `html`
+type                 | `number` or `text`                            | `text`
 spellcheck           | Uses browsers spellcheck, same as with `<input>` | none
 readonly             | If true, element can't be edited but is focusable | false
 disabled             | If true, element can't be edited, focused or tabbed to | false
@@ -60,35 +56,9 @@ allowNewlines        | If false, linebreaks can't be entered          | true
 autofocus            | If true, the element will be focused once inserted into the document | false
 clearPlaceholderOnFocus | If true, the placeholder will be cleared as soon as the element gains focus (even if no content is present yet) | false
 
-##### isText Deprecation
-isText has been deprecated. You should replace `isText=true` with `type="text"`, and `isText=false` with `type="html"`.
-
-##### editable Deprecation
-`editable` has been deprecated in favour of `disabled` to be more consistent with
-standard input tags.
 
 ### Events
-You can provide actions to handle the following list of events. Arguments passed to your action are consistent with Ember implementations in places like the `{{input}}` helper. `value` is the current value of the content-editable field, `component` is the component instance itself, and `event` is the corresponding raw event object.
-
-| Event Name     | Arguments
-|----------------|----------------
-| key-up         | value, event
-| key-down       | value, event
-| key-press      | component, event
-| escape-press   | component, event
-| enter          | component, event
-| insert-newline | component, event
-| focus-in       | component, event
-| focus-out      | component, event
-| mouse-enter    | component, event
-| mouse-leave    | component, event
-
-For example:
-```javascript
-{{content-editable value=name
-                   placeholder="Your name"
-                   enter="save"}}
-```
+You can use Embers default event support. Check the dummy app within the tests folder for an example.
 
 ### Customizing Placeholder Color
 ```
@@ -163,13 +133,9 @@ Setting `display: block;` in CSS seems to solve this.
 
 ## Contributions
 
-The current maintainer (st-h) tries to do his best to maintain this addon in the ember communities interest by keeping dependencies up to date and keeping current features working.
-
 If you want to report a bug, please open a new issue. Any bugs that are not totally obvious should include a way to reproduce the issue (like ember-twiddle) or a failing test. Or even better, provide a PR which tests and fixes the issue.
 
 In case you find there is a feature missing, please provide a PR with corresponding test coverage. Please keep in mind to keep addons lightweight. If in doubt, open an issue first and see what others think about it.
-
-If you want to help in taking care of this addon, just let us know.
 
 [npm-badge]: https://img.shields.io/npm/v/ember-content-editable.svg
 [npm-badge-url]: https://www.npmjs.com/package/ember-content-editable

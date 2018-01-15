@@ -9,11 +9,11 @@ test('visiting /', function(assert) {
     assert.equal(currentURL(), '/');
   });
 
-  fillContentEditable('.jsTest-textInput', 'Hi there!');
+  fillContentEditable('#text-input', 'Hi there!');
+  fillContentEditable('#number-input', 'a123');
 
   andThen(function() {
-    assert.equal(find('input').val(), 'Hi there!', 'content editable text bound to input');
-    assert.equal(find('.jsTest-textOutput').text().trim(), 'Hi there!', 'content editable html bound to p');
+    assert.equal(find('#text-output').text(), 'Hi there!', 'content editable text value rendered');
+    assert.equal(find('#number-output').text(), '123!', 'content editable number value rendered');
   });
-
 });
