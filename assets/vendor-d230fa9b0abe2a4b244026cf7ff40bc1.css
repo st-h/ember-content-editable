@@ -1,0 +1,1 @@
+[contenteditable]:empty:not(:focus):before,[contenteditable]:focus:empty:before{content:attr(placeholder)}.ember-content-editable.clear-on-focus[contenteditable]:empty:focus:before{content:''}[contenteditable]{cursor:text}.ember-content-editable:empty{color:#a9a9a9}.ember-content-editable:empty:after{content:"\0000a0"}
