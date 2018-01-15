@@ -8,7 +8,7 @@
 [![Dependencies][dependencies-badge]][dependencies-badge-url]
 [![Dev Dependencies][devDependencies-badge]][devDependencies-badge-url]
 
-Ember cli content-editable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you. It also works in [almost all browsers](http://caniuse.com/contenteditable).
+Ember cli contenteditable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you.
 
 ## Installation
 
@@ -16,9 +16,17 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 
 ### Versions
 
-**0.11.1** is the last stable version making use of the codebase used by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember releases.
+**0.11.1** is the last stable version making use of the codebase implemented by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember and IE releases.
 
-**1.0.0-alpha1** is a complete rewrite, which removes jquery dependencies and all ember legacy stuff like observers and computed properties. This version also removes support for type 'html' and puts its focus on being a drop in replacement for input and textarea elements. Please see this [issue](https://github.com/st-h/ember-content-editable/issues/36) for further details and to provide feedback. Or just contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch.
+**1.0.0-alpha.1** is a prerelease of a complete rewrite with the following changes:
+- removes jquery dependencies
+- removes IE9 and IE10 support
+- no observers and computed properties were harmed
+- only supports type `text` and therefore removes the `type` property completely
+- removes `stringInterpolator` functionality
+
+This enables us to significantly reduce the complexity of this addon as we now are able to rely on the browser to handle the modification of the dom and we only need to make sure to keep the binding of the provided property in sync. This should eliminate any potential bugs resulting from earlier custom implementations of key and copy-paste handlers as well as modifying the caret position.
+Please add any concerns or missing functionality to this [issue](https://github.com/st-h/ember-content-editable/issues/36) or contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch.
 
 ## Usage
 
@@ -26,8 +34,7 @@ Use it just like `input` or `textarea`.
 
 ```javascript
 {{content-editable value=name
-                   placeholder="Your name"
-                   type="text"}}
+                   placeholder="Your name"}}
 ```
 
 You can also pass in an extra CSS class if required, and of course specify the tag.
@@ -45,9 +52,7 @@ Option Name          | Description                                    | Default
 ---------------------|------------------------------------------------|---------
 value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
-stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the string to be used instead.           | none
 class                | String with any extra css class               | none
-type                 | `number` or `text`                            | `text`
 spellcheck           | Uses browsers spellcheck, same as with `<input>` | none
 readonly             | If true, element can't be edited but is focusable | false
 disabled             | If true, element can't be edited, focused or tabbed to | false
@@ -58,7 +63,12 @@ clearPlaceholderOnFocus | If true, the placeholder will be cleared as soon as th
 
 
 ### Events
-You can use Embers default event support. Check the dummy app within the tests folder for an example.
+This add on supports events supported by the ember component model. See the ember documentation for details or the dummy app within the test folder for an example. In addition to that, the following events are available:
+
+event | description
+--|--
+**insert-newline** | if `allowNewlines` is set to `true`, this event is triggered whenever a new line is inserted
+**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this action
 
 ### Customizing Placeholder Color
 ```
@@ -86,19 +96,6 @@ The following example filters the input to only allow numerical values.
       event.preventDefault();
     }
   },
-```
-
-### Extra Tags
-Some browsers have a bug where extra tags including `<div>`s get inserted into contenteditable fields, usually when newlines are entered.
-
-1) If you don't care about any tags, use `type="text"` to strip all of them.
-2) If you do care about tags, either use `display: inline-block` on the content-editable component (simplest solution) or pass a function as `stringInterpolator=myInterpolator` to remove extra text.
-
-```
-myInterpolator(inputString) {
-  /* Remove extra tags */
-  return stringWithNoDivs;
-}
 ```
 
 ### Tab Index

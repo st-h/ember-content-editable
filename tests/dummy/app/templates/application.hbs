@@ -1,18 +1,19 @@
 <h1>ember-content-editable</h1>
 
-<h2>type=text</h2>
-
-{{content-editable value=name placeholder="Name" type="text" mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
-                   maxlength=2000 id="text-input" class="important" autofocus=true}}
+<pre>
+\{{content-editable placeholder="enter something" maxlength=40
+                   mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
+                   length-exceeded=(action displayLengthAlert)
+                   id="text-input" class="important" autofocus=true}}
+</pre>
+{{content-editable value=something placeholder="enter something" maxlength=40
+                   mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
+                   length-exceeded=(action displayLengthAlert)
+                   id="text-input" class="important" autofocus=true}}
 
 <div class="jsTest-textOutput">
-  <div>mouse is inside: {{mouseInside}}</div>
-  output: <pre id="text-output">{{name}}</pre>
+  output: <pre id="text-output">{{something}}</pre>
 </div>
 
-
-<h2>type=number</h2>
-
-{{content-editable value=number placeholder="enter credit card here..." type="number" id="number-input"}}
-
-<div>output: <pre id="number-output">{{number}}</pre></div>
+<div>mouse is inside: {{mouseInside}}</div>
+<button {{action (mut something) ''}}>clear</button>
