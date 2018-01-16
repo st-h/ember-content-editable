@@ -68,7 +68,12 @@ export default Component.extend({
   },
 
   updateDom() {
-    this.element.innerText = this.get('value');
+    const value = this.get('value');
+    if (value === undefined) {
+      this.element.innerText = '';
+    } else {
+      this.element.innerText = value;
+    }
   },
 
   keyUp(event) {
