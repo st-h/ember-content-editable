@@ -63,14 +63,17 @@ clearPlaceholderOnFocus | If true, the placeholder will be cleared as soon as th
 
 
 ### Events
-This addon supports events supported by the ember component model. See the ember documentation for details or the dummy app within the test folder for an example. In addition to that, the following events are available:
+This addon supports events supported by the ember component model (except for keyboard events). See the ember documentation for details or the dummy app within the test folder for an example. As this addon uses keyboard events slightly renamed hooks are available as making use of the default hooks would override the addons implementation.
 
-event | description | args
+event | description | argument
 -- | -- | --
 **insert-newline** | if `allowNewlines` is set to `true`, this event is triggered whenever a new line is inserted | event
-**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this action | total numbers of character entered
+**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this event | total numbers of character entered
 **enter** | triggers when the enter key is pressed | event
 **escape-press** | triggers when the escape key is pressed | event
+**key-up** | `keyUp` replacement | event
+**key-press** | `keyPress` replacement | event
+**key-down** | `keyDown` replacement | event
 
 ### Customizing Placeholder Color
 ```

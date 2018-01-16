@@ -71,6 +71,10 @@ export default Component.extend({
     this.element.innerText = this.get('value');
   },
 
+  keyUp(event) {
+    this.sendAction('key-up', event);
+  },
+
   keyPress(event) {
     const newLength = this.element.innerText.length - this.getSelectionLength();
     if (this.get('maxlength') && newLength >= this.get('maxlength')) {
@@ -78,6 +82,7 @@ export default Component.extend({
       this.sendAction('length-exceeded', this.element.innerText.length + 1);
       return false;
     }
+    this.sendAction('key-press', event);
   },
 
   keyDown(event) {
@@ -92,6 +97,7 @@ export default Component.extend({
         return false;
       }
     }
+    this.sendAction('key-down', event);
   },
 
   getSelectionLength() {
