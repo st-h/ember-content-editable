@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  something: "<div>this field should be focused</div>",
+  value: "<div>this field should be focused</div>",
+  enterCount: 0,
+  escapeCount: 0,
+  mouseInside: false,
 
-  displayLengthAlert() {
-    alert('content too long! this is just a field, not an entire book...');
+  displayLengthAlert(charCount) {
+    alert('you tried to enter ' + charCount + ' characters, which just seems to be enough for now. The limit is 40!');
   }
 });
