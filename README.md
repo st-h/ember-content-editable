@@ -16,13 +16,18 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 
 ### Versions
 
-As this addon has recently changed ownership, this section gives a rough overview over the latest releases and plans for the future.
+**0.11.1** is the last stable version making use of the codebase implemented by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember and IE releases.
 
-**0.10.0**: last release by [AddJAm](https://github.com/AddJAm) 
+**1.0.0-alpha.2** is a prerelease of a complete rewrite with the following changes:
+- removes jquery dependencies
+- removes IE9 and IE10 support
+- no observers and computed properties were harmed
+- only supports type `text` and therefore removes the `type` property completely
+- removes `stringInterpolator` functionality
+- removes `readonly` support as this lead to a state where the field is selectable but all key events where broken - without a reasonable way to fix. Use the `disabled` property instead to disable editing.
 
-**0.11.x**: updates dependencies and keeps the previous implementation wherever possible
-
-**1.0.0**: will be an upcoming release, which makes use of the updated ember component api. Any features deprecated in 0.11.x or earlier will be removed. Please contribute to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch or join the discussion regarding breaking changes withing this [issue](https://github.com/st-h/ember-content-editable/issues/36). Release date is not set yet.
+This enables us to significantly reduce the complexity of this addon as we now are able to rely on the browser to handle the modification of the dom and we only need to make sure to keep the binding of the provided property in sync. This should eliminate any potential bugs resulting from earlier custom implementations of key and copy-paste handlers as well as modifying the caret position.
+Please add any concerns or missing functionality to this [issue](https://github.com/st-h/ember-content-editable/issues/36) or contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch.
 
 ## Usage
 
