@@ -26,7 +26,7 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 - removes `stringInterpolator` functionality
 - removes `readonly` support as this lead to a state where the field is selectable but all key events where broken - without a reasonable way to fix. Use the `disabled` property instead to disable editing.
 
-This enables us to significantly reduce the complexity of this addon as we now are able to rely on the browser to handle the modification of the dom and we only need to make sure to keep the binding of the provided property in sync. This should eliminate any potential bugs resulting from earlier custom implementations of key and copy-paste handlers as well as modifying the caret position. Just try it yourself [here](http://st-h.github.io/ember-content-editable/).
+This enables us to significantly reduce the complexity of this addon as we now are able to rely on the browser to handle the modification of the dom and we only need to make sure to keep the binding of the provided property in sync. This should eliminate any potential bugs resulting from earlier custom implementations of key and copy-paste handlers as well as modifying the caret position. Just try it yourself [here](http://st-h.github.io/ember-content-editable/) or see the [documentation](https://github.com/st-h/ember-content-editable/blob/1.0.0-rewrite/README.md).
 Please add any concerns or missing functionality to this [issue](https://github.com/st-h/ember-content-editable/issues/36) or contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch. 
 
 ## Usage
