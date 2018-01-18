@@ -13,6 +13,9 @@
                    enter=(action incrementProperty 'enterCount' 1)
                    escape-press=(action incrementProperty 'escapeCount' 1)
                    length-exceeded=(action displayLengthAlert)
+                   key-up=(action incrementProperty 'keyup' 1)
+                   key-press=(action incrementProperty 'keypress' 1)
+                   key-down=(action incrementProperty 'keydown' 1)
                    id="text-input" class="important" autofocus=true}}
 
 <p class="jsTest-textOutput info">
@@ -25,5 +28,8 @@
   <div>mouse is inside: {{mouseInside}}</div>
   <div>enter pressed: {{enterCount}}</div>
   <div>escape pressed: {{escapeCount}}</div>
+  <div>key-up: {{keyup}}</div>
+  <div>key-press: {{keypress}}</div>
+  <div>key-down: {{keydown}}</div>
   <button {{action (mut value) ''}}>set value to empty string</button>
 </div>
