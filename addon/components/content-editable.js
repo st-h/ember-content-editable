@@ -9,7 +9,6 @@ export default Component.extend({
     'placeholder',
     'spellcheck',
     'tabindex',
-    'readonly',
     'disabled'
   ],
 
@@ -17,7 +16,6 @@ export default Component.extend({
   spellcheck: null,
   isText: null,
   type: 'text',
-  readonly: null,
   allowNewlines: true,
   autofocus: false,
   clearPlaceholderOnFocus: false,
