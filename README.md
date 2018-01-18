@@ -18,7 +18,7 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 
 **0.11.1** is the last stable version making use of the codebase implemented by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember and IE releases.
 
-**1.0.0-alpha.2** is a prerelease of a complete rewrite with the following changes:
+**1.0.0-alpha.x** is a prerelease of a complete rewrite with the following changes (see badge above for latest release):
 - removes jquery dependencies
 - removes IE9 and IE10 support
 - no observers and computed properties were harmed
