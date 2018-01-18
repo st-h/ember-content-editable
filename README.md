@@ -84,24 +84,6 @@ event | description | argument
 ## Common Problems
 These are some solutions to common problems browsers have with contenteditable elements.
 
-### Filtering Input
-If you want to filter the input, you can achieve this using the `key-press` event.
-
-The following example filters the input to only allow numerical values.
-
-```
-{{content-editable value=age key-press=filter}}
-```
-
-```
-  filter(currentValue, event) {
-    const keyCode = event.which;
-    if (keyCode <= 48 || keyCode >= 58) {
-      event.preventDefault();
-    }
-  },
-```
-
 ### Tab Index
 The `tabindex` attribute is bound to the element in the DOM, but only [certain tags support it](http://www.w3.org/TR/html4/interact/forms.html#adef-tabindex).
 
