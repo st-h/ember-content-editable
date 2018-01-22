@@ -75,32 +75,32 @@ export default Component.extend({
   },
 
   keyUp(event) {
-    this.sendAction('key-up', event);
+    this.get('key-up')(event);
   },
 
   keyPress(event) {
     const newLength = this.element.innerText.length - this.getSelectionLength();
     if (this.get('maxlength') && newLength >= this.get('maxlength')) {
       event.preventDefault();
-      this.sendAction('length-exceeded', this.element.innerText.length + 1);
+      this.get('length-exceeded')(this.element.innerText.length + 1);
       return false;
     }
-    this.sendAction('key-press', event);
+    this.get('key-press')(event);
   },
 
   keyDown(event) {
     if (event.keyCode === 27) {
-      this.sendAction('escape-press', event);
+      this.get('escape-press')(event);
     } else if (event.keyCode === 13) {
-      this.sendAction('enter', event);
+      this.get('enter')(event);
       if (this.get('allowNewlines')) {
-        this.sendAction('insert-newline', event);
+          this.get('insert-newline')(event);
       } else {
         event.preventDefault();
         return false;
       }
     }
-    this.sendAction('key-down', event);
+    this.get('key-down')(event);
   },
 
   getSelectionLength() {
@@ -122,10 +122,24 @@ export default Component.extend({
       const selectionLength = this.getSelectionLength();
       const afterPasteLength = text.length + this.element.innerText.length - selectionLength;
       if (afterPasteLength > this.get('maxlength')) {
-        this.sendAction('length-exceeded', afterPasteLength);
+        this.get('length-exceeded')(afterPasteLength);
         return false;
       }
     }
     document.execCommand("insertHTML", false, text);
-  }
+  },
+
+  enter() { },
+
+  'escape-press'() { },
+
+  'key-up'() { },
+
+  'key-press'() { },
+
+  'key-down'() { },
+
+  'length-exceeded'() { },
+
+  'insert-newline'() { }
 });

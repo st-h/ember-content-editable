@@ -1,9 +1,9 @@
-import { registerAsyncHelper } from '@ember/test';
 import $ from 'jquery';
+import { triggerEvent, click } from '@ember/test-helpers';
 
-export default registerAsyncHelper('fillContentEditable', function(app, selector, content) {
+export async function fillContentEditable(selector, content) {
   click(selector);
   $(selector).html(content);
-  keyEvent(selector, 'keyup', 13);
+  triggerEvent(selector, 'keyup', 13);
   triggerEvent(selector, 'blur');
-});
+}
