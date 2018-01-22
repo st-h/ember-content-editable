@@ -1,7 +1,6 @@
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render, fillIn, triggerEvent, triggerKeyEvent, focus, blur } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 function getPlaceholderContent(element) {
@@ -34,32 +33,29 @@ module('Integration | Component | content editable', function(hooks) {
 
     await render(hbs`{{content-editable}}`);
 
-    assert.equal(this.$().text(), '');
-    assert.equal(this.$('.ember-content-editable').length, 1);
+    assert.dom('.ember-content-editable').hasText('');
+    assert.dom('.ember-content-editable').exists({ count: 1 });
   });
 
   test('placeholder renders and stays on focus until the element has content', async function(assert) {
     assert.expect(5);
     this.set("value", "");
     await render(hbs`{{content-editable value=value placeholder="bananas"}}`);
-    const $element = this.$('.ember-content-editable');
-    const element = $element[0];
 
-    // Check element attr
-    assert.equal($element.attr('placeholder'), "bananas", "DOM attr has correct placeholder");
+    assert.dom('.ember-content-editable').hasAttribute('placeholder', 'bananas')
 
-    // Check CSS output
-    assert.equal(getPlaceholderContent(element), 'bananas', "CSS before:content matches placeholder");
+    const editable = this.element.getElementsByClassName('ember-content-editable')[0];
+    assert.equal(getPlaceholderContent(editable), 'bananas', "CSS before:content matches placeholder");
 
-    element.focus();
+    await focus('.ember-content-editable');
 
-    assert.equal($element.attr('placeholder'), "bananas", "DOM attr has correct placeholder");
-    assert.equal(getPlaceholderContent(element), 'bananas', "CSS before:content matches placeholder");
+    assert.dom('.ember-content-editable').hasAttribute('placeholder', 'bananas')
+    assert.equal(getPlaceholderContent(editable), 'bananas', "CSS before:content matches placeholder");
 
     // Check placeholder hidden when value is present
     this.set("value", "zebra");
 
-    assert.equal(getPlaceholderContent(element), "", "Placeholder not shown when content present");
+    assert.equal(getPlaceholderContent(editable), '', "Placeholder not shown when content present");
   });
 
   test('`clearPlaceholderOnFocus` option removes placeholder on intial focus', async function(assert) {
@@ -68,50 +64,44 @@ module('Integration | Component | content editable', function(hooks) {
     await render(
       hbs`{{content-editable tabindex="0" value=value placeholder="bananas" clearPlaceholderOnFocus="true"}}`
     );
-    const $element = this.$('.ember-content-editable');
-    const element = $element[0];
 
-    // Check CSS output
-    assert.equal(getPlaceholderContent(element), 'bananas', "CSS before:content matches placeholder");
+    const editable = this.element.getElementsByClassName('ember-content-editable')[0];
 
-    element.focus();
+    assert.equal(getPlaceholderContent(editable), 'bananas', "CSS before:content matches placeholder");
 
-    return settled().then(() => {
-      assert.equal(getPlaceholderContent(element), "", "CSS before: placeholder content removed when `clearPlaceholderOnFocus` is used");
-    })
+    await focus(editable);
+
+    assert.equal(getPlaceholderContent(editable), "", "CSS before: placeholder content removed when `clearPlaceholderOnFocus` is used");
   });
 
   test('Value updated when input changes', async function(assert) {
     assert.expect(2);
     this.set("value", "");
     await render(hbs`{{content-editable value=value placeholder="bananas"}}`);
-    const $element = this.$('.ember-content-editable');
 
     assert.equal(this.get("value"), "", "Initial value is correct");
-    $element.text("gif not jif");
-    const event = $.Event("keyup");
-    $element.trigger(event);
-    return settled().then(() => {
-      assert.equal(this.get("value"), "gif not jif", "Value updated when input changed");
-    });
+
+    await fillIn('.ember-content-editable', "gif not jif");
+
+    assert.equal(this.get("value"), "gif not jif", "Value updated when input changed");
   });
 
   test('Input updated when value changes', async function(assert) {
     assert.expect(2);
     this.set("value", "");
     await render(hbs`{{content-editable value=value placeholder="bananas"}}`);
-    const $element = this.$('.ember-content-editable');
 
-    assert.equal($element.text(), "", "Initial output is correct");
+    assert.dom('.ember-content-editable').hasText('');
+
     this.set("value", "cheese");
-    assert.equal($element.text(), "cheese", "Output changes when bound value changes");
+
+    assert.dom('.ember-content-editable').hasText('cheese');
   });
 
   test('extraClass added to DOM', async function(assert) {
     assert.expect(1);
     await render(hbs`{{content-editable class="dinosaurs"}}`);
-    const $element = this.$('.ember-content-editable');
-    assert.ok($element.hasClass("dinosaurs"));
+    assert.dom('.ember-content-editable').hasClass('dinosaurs');
   });
 
   test('basic key events triggered', async function(assert) {
@@ -131,16 +121,10 @@ module('Integration | Component | content editable', function(hooks) {
         {{content-editable value="test" placeholder="bananas"
          key-up=(action key-up) key-down=(action key-down) key-press=(action key-press)}}
     `);
-    const $element = this.$('.ember-content-editable');
 
-    const keyDown = $.Event("keydown");
-    $element.trigger(keyDown);
-
-    const keyPress = $.Event("keypress");
-    $element.trigger(keyPress);
-
-    const keyUp = $.Event("keyup");
-    $element.trigger(keyUp);
+    await triggerEvent('.ember-content-editable', 'keydown');
+    await triggerEvent('.ember-content-editable', 'keypress');
+    await triggerEvent('.ember-content-editable', 'keyup');
   });
 
   test('specific key events triggered', async function(assert) {
@@ -161,62 +145,54 @@ module('Integration | Component | content editable', function(hooks) {
          escape-press=(action escape-press) insert-newline=(action insert-newline)
          enter=(action enter)}}
     `);
-    const $element = this.$('.ember-content-editable');
 
-    const escapePress = $.Event("keydown", {keyCode: 27});
-    $element.trigger(escapePress);
-
-    // Both enter and insert-newline
-    const enterNewlinePress = $.Event("keydown", {keyCode: 13});
-    $element.trigger(enterNewlinePress);
+    await triggerKeyEvent('.ember-content-editable', 'keydown', 27);
+    await triggerKeyEvent('.ember-content-editable', 'keydown', 13);
   });
 
   test('focus events are triggered', async function(assert) {
     assert.expect(2);
 
-    this.actions.focusOut = function() {
+    this.set('focusOut', function() {
       assert.ok(true, "focus-out triggered");
-    };
-    this.actions.focusIn = function() {
+    });
+    this.set('focusIn', function() {
       assert.ok(true, "focus-in triggered");
-    };
+    });
 
     await render(hbs`
         {{content-editable value="test" placeholder="bananas"
-         focusOut=(action 'focusOut') focusIn=(action 'focusIn')}}
+         focusOut=(action focusOut) focusIn=(action focusIn)}}
     `);
-    const $element = this.$('.ember-content-editable');
 
-    $element.focus();
-    $element.blur();
+    await focus('.ember-content-editable');
+    await blur('.ember-content-editable');
   });
 
   test('mouse events are triggered', async function(assert) {
     assert.expect(2);
 
-    this.actions['mouse-leave'] = function() {
+    this.set('mouse-leave', function() {
       assert.ok(true, "mouse-leave triggered");
-    };
-    this.actions['mouse-enter'] = function() {
+    });
+    this.set('mouse-enter', function() {
       assert.ok(true, "mouse-enter triggered");
-    };
+    });
 
     await render(hbs`
         {{content-editable value="test" placeholder="bananas"
-         mouseLeave=(action 'mouse-leave') mouseEnter=(action 'mouse-enter')}}
+         mouseLeave=(action mouse-leave) mouseEnter=(action mouse-enter)}}
     `);
-    const $element = this.$('.ember-content-editable');
 
-    $element.mouseenter();
-    $element.mouseleave();
+    await triggerEvent('.ember-content-editable', 'mouseover');
+    await triggerEvent('.ember-content-editable', 'mouseout');
   });
 
   test('disabled attribute works', async function(assert) {
     assert.expect(1);
     await render(hbs`{{content-editable disabled=true}}`);
-    const $element = this.$('.ember-content-editable');
 
-    assert.ok($element.prop('contenteditable') === "inherit" || $element.prop('contenteditable') === "false");
+    assert.dom('.ember-content-editable').doesNotHaveAttribute('contenteditable', 'false');
   });
 
   test('allowNewlines=true works', async function(assert) {
@@ -227,10 +203,9 @@ module('Integration | Component | content editable', function(hooks) {
     });
 
     await render(hbs`{{content-editable allowNewlines=true value=value key-down=keyDown}}`);
-    const $element = this.$('.ember-content-editable');
 
-    $element.trigger($.Event("keydown", { keyCode: 13})); // Enter
-    $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
+    triggerKeyEvent('.ember-content-editable', 'keydown', 13); //enter
+    triggerKeyEvent('.ember-content-editable', 'keydown', 65); //non-enter
   });
 
   test('allowNewlines=false works', async function(assert) {
@@ -241,25 +216,22 @@ module('Integration | Component | content editable', function(hooks) {
     });
 
     await render(hbs`{{content-editable allowNewlines=false value=value key-down=keyDown}}`);
-    const $element = this.$('.ember-content-editable');
 
-    $element.trigger($.Event("keydown", { keyCode: 13})); // Enter
-    $element.trigger($.Event("keydown", { keyCode: 65 })); // Not enter
+    triggerKeyEvent('.ember-content-editable', 'keydown', 13); //enter
+    triggerKeyEvent('.ember-content-editable', 'keydown', 65); //non-enter
   });
 
   test('Pasting works for text', async function(assert) {
     assert.expect(1);
     this.set('value', "");
 
-
     await render(hbs`{{content-editable value=value maxlength='2000' class='jsTest-contentEditable'}}`);
-    const $element = this.$('.ember-content-editable');
-    this.$('.jsTest-contentEditable').focus();
-    $element[0].dispatchEvent(pasteEvent); // paste fake event
 
-    return settled().then(() => {
-      assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
-    });
+    const editable = this.element.getElementsByClassName('ember-content-editable')[0];
+    await focus('.ember-content-editable');
+    await editable.dispatchEvent(pasteEvent); // paste fake event
+
+    assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
   });
 
   test('Pasting works for html with no maxlength', async function(assert) {
@@ -267,12 +239,11 @@ module('Integration | Component | content editable', function(hooks) {
     this.set('value', "");
 
     await render(hbs`{{content-editable value=value type='html' class='jsTest-contentEditable '}}`);
-    const $element = this.$('.ember-content-editable');
-    this.$('.jsTest-contentEditable').focus();
-    $element[0].dispatchEvent(pasteEvent); // paste fake event
 
-    return settled().then(() => {
-      assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
-    });
+    const editable = this.element.getElementsByClassName('ember-content-editable')[0];
+    await focus('.ember-content-editable');
+    await editable.dispatchEvent(pasteEvent); // paste fake event
+
+    assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
   });
 });
