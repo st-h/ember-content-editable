@@ -44,6 +44,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.locationType = 'hash';
+    ENV.rootURL = '/ember-content-editable/';
     // here you can enable a production-specific feature
   }
 
