@@ -67,7 +67,7 @@ export default Component.extend({
 
   updateDom() {
     const value = this.get('value');
-    if (value === undefined) {
+    if (value === undefined || value === null) {
       this.element.innerText = '';
     } else {
       this.element.innerText = value;
