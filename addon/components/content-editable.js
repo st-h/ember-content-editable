@@ -14,8 +14,6 @@ export default Component.extend({
 
   disabled: false,
   spellcheck: null,
-  isText: null,
-  type: 'text',
   allowNewlines: true,
   autofocus: false,
   clearPlaceholderOnFocus: false,
