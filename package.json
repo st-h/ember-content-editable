@@ -28,8 +28,7 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.9.0",
-    "install": "^0.10.4"
+    "ember-cli-babel": "^6.9.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",

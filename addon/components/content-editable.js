@@ -20,33 +20,35 @@ export default Component.extend({
   autofocus: false,
   clearPlaceholderOnFocus: false,
 
+  init() {
+    this._super();
+    this._pasteHandler = run.bind(this, this.pasteHandler);
+  },
+
   didInsertElement() {
     this._super(...arguments)
 
-    // register an observer on mutations of this component's dom
-    const observer = this.set('_mutationObserver', new MutationObserver(this.domChanged.bind(this)));
-    observer.observe(this.element, {attributes: false, childList: true, characterData: true, subtree: true});
-
+    this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
+    this._mutationObserver.observe(this.element, {attributes: false, childList: true, characterData: true, subtree: true});
     this.updateDom();
 
     if (this.get('autofocus')) {
       this.element.focus();
     }
-    window.addEventListener('paste', this.set('_paste_function', this.pasteHandler.bind(this)), false);
+
+    this.element.addEventListener('paste', this._pasteHandler);
   },
 
-  willDestroyElement: function() {
-    window.removeEventListener('paste', this.get('_paste_function'), false);
-    this.get('_mutationObserver').disconnect();
+  willDestroyElement() {
+    this.element.removeEventListener('paste', this._pasteHandler);
+    this._mutationObserver.disconnect();
   },
 
   domChanged() {
-    run(()=> {
-      const text = this.element.innerText;
-      this.setProperties({
-        value: text,
-        _internalValue: text
-      });
+    const text = this.element.innerText;
+    this.setProperties({
+      value: text,
+      _internalValue: text
     });
   },
 
