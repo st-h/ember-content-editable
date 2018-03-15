@@ -8,7 +8,7 @@
 [![Dependencies][dependencies-badge]][dependencies-badge-url]
 [![Dev Dependencies][devDependencies-badge]][devDependencies-badge-url]
 
-Ember cli content-editable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you. It also works in [almost all browsers](http://caniuse.com/contenteditable).
+Ember cli contenteditable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you.
 
 ## Installation
 
@@ -16,30 +16,24 @@ Ember cli content-editable component, with placeholder and value binding. Use it
 
 ### Versions
 
-**0.11.1** is the last stable version making use of the codebase implemented by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember and IE releases.
+Since version **1.0.0** this addon has been rewritten to focus on using contenteditable elements as input replacements. In case you need previously available functionality or IE9 or IE10 support, **0.11.1** was the last release of the 0.x.x series.
 
-**1.0.0-alpha.x** is a prerelease of a complete rewrite with the following changes (see badge above for latest release):
+Major changes as of **1.0.0**:
 - removes jquery dependencies
 - removes IE9 and IE10 support
 - no observers and computed properties were harmed
-- only supports type `text` and therefore removes the `type` property completely
-- removes `stringInterpolator` functionality
-- removes `readonly` support as this lead to a state where the field is selectable but all key events where broken - without a reasonable way to fix. Use the `disabled` property instead to disable editing.
-
-This enables us to significantly reduce the complexity of this addon as we now are able to rely on the browser to handle the modification of the dom and we only need to make sure to keep the binding of the provided property in sync. This should eliminate any potential bugs resulting from earlier custom implementations of key and copy-paste handlers as well as modifying the caret position. Just try it yourself [here](http://st-h.github.io/ember-content-editable/) or see the [documentation](https://github.com/st-h/ember-content-editable/blob/1.0.0-rewrite/README.md).
-Please add any concerns or missing functionality to this [issue](https://github.com/st-h/ember-content-editable/issues/36) or contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch. 
+- only supports type text and therefore removes the type property completely
+- removes stringInterpolator functionality
 
 ## Usage
 
-Use it just like `input` or `textarea`.
+Use it just like `input` or `textarea`:
 
 ```javascript
-{{content-editable value=name
-                   placeholder="Your name"
-                   type="text"}}
+{{content-editable value=name placeholder="Your name"}}
 ```
 
-You can also pass in an extra CSS class if required, and of course specify the tag.
+You can also pass in an extra CSS class if required, and of course specify the tag:
 
 ```javascript
 {{content-editable value=name
@@ -48,54 +42,44 @@ You can also pass in an extra CSS class if required, and of course specify the t
                    tagName="h3"}}
 ```
 
+And lastly, you can also pass `value` as a positional parameter:
+
+```javascript
+{{content-editable name placeholder="Your name"}}
+```
+
 ### Options
 
 Option Name          | Description                                    | Default
 ---------------------|------------------------------------------------|---------
 value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
-stringInterpolator   | Function which processes / intercepts any updated value. Takes a string and returns the string to be used instead.           | none
 class                | String with any extra css class               | none
-type                 | `number`, `text`, or `html`. `text` strips out any html tags, `html` doesn't.                    | `html`
 spellcheck           | Uses browsers spellcheck, same as with `<input>` | none
-readonly             | If true, element can't be edited but is focusable | false
 disabled             | If true, element can't be edited, focused or tabbed to | false
 maxlength            | Maximum length of the input, in characters     | none
 allowNewlines        | If false, linebreaks can't be entered          | true
 autofocus            | If true, the element will be focused once inserted into the document | false
 clearPlaceholderOnFocus | If true, the placeholder will be cleared as soon as the element gains focus (even if no content is present yet) | false
 
-##### isText Deprecation
-isText has been deprecated. You should replace `isText=true` with `type="text"`, and `isText=false` with `type="html"`.
-
-##### editable Deprecation
-`editable` has been deprecated in favour of `disabled` to be more consistent with
-standard input tags.
 
 ### Events
-You can provide actions to handle the following list of events. Arguments passed to your action are consistent with Ember implementations in places like the `{{input}}` helper. `value` is the current value of the content-editable field, `component` is the component instance itself, and `event` is the corresponding raw event object.
 
-| Event Name     | Arguments
-|----------------|----------------
-| key-up         | value, event
-| key-down       | value, event
-| key-press      | component, event
-| escape-press   | component, event
-| enter          | component, event
-| insert-newline | component, event
-| focus-in       | component, event
-| focus-out      | component, event
-| mouse-enter    | component, event
-| mouse-leave    | component, event
+This addon supports events supported by the ember component model (except for keyboard events). See the ember documentation for details or the dummy app within the test folder for an example. As this addon uses keyboard events slightly renamed hooks are available as making use of the default hooks would override the addons implementation.
 
-For example:
-```javascript
-{{content-editable value=name
-                   placeholder="Your name"
-                   enter="save"}}
-```
+event | description | argument
+-- | -- | --
+**insert-newline** | if `allowNewlines` is set to `true`, this event is triggered whenever a new line is inserted | event
+**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this event | total numbers of character entered (number)
+**enter** | triggers when the enter key is pressed | event
+**escape-press** | triggers when the escape key is pressed | event
+**key-up** | `keyUp` replacement | event
+**key-press** | `keyPress` replacement | event
+**key-down** | `keyDown` replacement | event
+**paste** | triggers when content is pasted successfully (does not fire when maxlength is exceeded) | pasted text content (string)
 
 ### Customizing Placeholder Color
+
 ```
 .ember-content-editable:empty {
   color: rgba(0,0,0,0.6);
@@ -103,40 +87,11 @@ For example:
 ```
 
 ## Common Problems
+
 These are some solutions to common problems browsers have with contenteditable elements.
 
-### Filtering Input
-If you want to filter the input, you can achieve this using the `key-press` event.
-
-The following example filters the input to only allow numerical values.
-
-```
-{{content-editable value=age key-press=filter}}
-```
-
-```
-  filter(currentValue, event) {
-    const keyCode = event.which;
-    if (keyCode <= 48 || keyCode >= 58) {
-      event.preventDefault();
-    }
-  },
-```
-
-### Extra Tags
-Some browsers have a bug where extra tags including `<div>`s get inserted into contenteditable fields, usually when newlines are entered.
-
-1) If you don't care about any tags, use `type="text"` to strip all of them.
-2) If you do care about tags, either use `display: inline-block` on the content-editable component (simplest solution) or pass a function as `stringInterpolator=myInterpolator` to remove extra text.
-
-```
-myInterpolator(inputString) {
-  /* Remove extra tags */
-  return stringWithNoDivs;
-}
-```
-
 ### Tab Index
+
 The `tabindex` attribute is bound to the element in the DOM, but only [certain tags support it](http://www.w3.org/TR/html4/interact/forms.html#adef-tabindex).
 
 >The following elements support the tabindex attribute: A, AREA, BUTTON, INPUT, OBJECT, SELECT, and TEXTAREA.
@@ -144,9 +99,11 @@ The `tabindex` attribute is bound to the element in the DOM, but only [certain t
 So to use `tabindex`, you'll also need to set `tagName` to one of those.
 
 ### Newlines aren't showing
+
 Try using `whitespace: pre-line;` or `whitespace: pre-wrap;` in your CSS.
 
 ### I can't blur the element
+
 A solution to this is to call `window.getSelection().removeAllRanges()` after you call `blur()` on the element.
 
 For example, if you have `enter='endEditing'` on your content-editable, the following action would prevent the newline and blur the element.
@@ -160,6 +117,7 @@ endEditing(contentEditable, event) {
 ```
 
 ### Cursor appears too big when element is empty
+
 Setting `display: block;` in CSS seems to solve this.
 
 ## Acknowledements
@@ -168,13 +126,9 @@ Setting `display: block;` in CSS seems to solve this.
 
 ## Contributions
 
-The current maintainer (st-h) tries to do his best to maintain this addon in the ember communities interest by keeping dependencies up to date and keeping current features working.
-
 If you want to report a bug, please open a new issue. Any bugs that are not totally obvious should include a way to reproduce the issue (like ember-twiddle) or a failing test. Or even better, provide a PR which tests and fixes the issue.
 
 In case you find there is a feature missing, please provide a PR with corresponding test coverage. Please keep in mind to keep addons lightweight. If in doubt, open an issue first and see what others think about it.
-
-If you want to help in taking care of this addon, just let us know.
 
 [npm-badge]: https://img.shields.io/npm/v/ember-content-editable.svg
 [npm-badge-url]: https://www.npmjs.com/package/ember-content-editable

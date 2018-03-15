@@ -1,17 +1,38 @@
-<h1>Content Editable Component - Text</h1>
+<h1>ember-content-editable</h1>
 
-{{content-editable value=name placeholder="Name" type="text" maxlength=2000 class="u-whiteSpacePre jsTest-textInput"}}
+<pre>
+\{{content-editable value=value placeholder="enter something" maxlength=40
+                   mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
+                   enter=(action incrementProperty 'enterCount' 1)
+                   escape-press=(action incrementProperty 'escapeCount' 1)
+                   length-exceeded=(action displayLengthAlert)
+                   id="text-input" class="important" autofocus=true}}
+</pre>
+{{content-editable value placeholder="enter something" maxlength=40
+                   mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
+                   enter=(action incrementProperty 'enterCount' 1)
+                   escape-press=(action incrementProperty 'escapeCount' 1)
+                   length-exceeded=(action displayLengthAlert)
+                   key-up=(action incrementProperty 'keyup' 1)
+                   key-press=(action incrementProperty 'keypress' 1)
+                   key-down=(action incrementProperty 'keydown' 1)
+                   id="text-input" class="important" autofocus=true}}
 
-<h1>Input</h1>
-{{input value=name spellcheck=true}}
+<p class="jsTest-textOutput info">
+  \{{value}}:
+  <pre id="text-output">{{value}}</pre>
+</p>
 
-<h1>Text output</h1>
-<p class="u-whiteSpacePre jsTest-textOutput">{{name}}</p>
+<div class="info">
+  <div>text length: {{value.length}}</div>
+  <div>mouse is inside: {{mouseInside}}</div>
+  <div>enter pressed: {{enterCount}}</div>
+  <div>escape pressed: {{escapeCount}}</div>
+  <div>key-up: {{keyup}}</div>
+  <div>key-press: {{keypress}}</div>
+  <div>key-down: {{keydown}}</div>
+  <button {{action (mut value) ''}}>set value to empty string</button>
+</div>
 
-
-<h1>Content Editable Component - HTML</h1>
-
-{{content-editable value=htmlText placeholder="HTML text" type="html" }}
-
-<h1>HTML output</h1>
-<p>{{{htmlText}}}</p>
+{{content-editable value=nullValue placeholder="placeholder for null value"}}
+{{content-editable value=undefinedValue placeholder="placeholder for undefined value"}}

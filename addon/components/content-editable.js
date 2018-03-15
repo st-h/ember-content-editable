@@ -1,280 +1,151 @@
-import { isEmpty } from '@ember/utils';
-import { htmlSafe } from '@ember/string';
-import { once } from '@ember/runloop';
-import { on } from '@ember/object/evented';
-import { deprecate } from '@ember/application/deprecations';
-import { computed, observer } from '@ember/object';
 import Component from '@ember/component';
+import { run } from "@ember/runloop";
 
 export default Component.extend({
   classNames: ['ember-content-editable'],
-  classNameBindings: ['extraClass', 'clearPlaceholderOnFocus:clear-on-focus'],
+  classNameBindings: ['clearPlaceholderOnFocus:clear-on-focus'],
   attributeBindings: [
     'contenteditable',
     'placeholder',
     'spellcheck',
     'tabindex',
-    'readonly',
     'disabled'
   ],
-  contenteditable: computed('editable', 'disabled', function() {
-    if (this.get('editable') !== null) {
-      if (this.get('editable')) {
-        deprecate("You set editable=true on content-editable, " +
-            "but this has been deprecated in favour of disabled=false", false, {
-              id: "ember-content-editable_editable-param",
-              until: "1.0.0"
-            });
-      } else {
-        deprecate("You set editable=false on content-editable, " +
-            "but this has been deprecated in favour of disabled=true", false, {
-              id: "ember-content-editable_editable-param",
-              until: "1.0.0"
-            });
-      }
-      return this.get('editable');
-    } else {
-      return !this.get('disabled');
-    }
-  }),
-  editable: null,
-  disabled: null,
+
+  disabled: false,
   spellcheck: null,
-  isText: null,
-  type: null,
-  readonly: null,
   allowNewlines: true,
   autofocus: false,
   clearPlaceholderOnFocus: false,
 
-  inputType: computed('type', 'isText', function() {
-    if (this.get('isText') !== null) {
-      if (this.get('isText')) {
-        deprecate("You set isText=true on content-editable, " +
-            "but this has been deprecated in favour of type='text'", false, {
-              id: "ember-content-editable_isText-param",
-              until: "1.0.0"
-            });
-        return "text";
-      } else {
-        deprecate("You set isText=false on content-editable, " +
-            "but this has been deprecated in favour of type='html'", false, {
-              id: "ember-content-editable_isText-param",
-              until: "1.0.0"
-            });
-        return "html";
-      }
-    } else {
-      return this.get('type') || "html";
-    }
-  }),
+  init() {
+    this._super();
+    this._pasteHandler = run.bind(this, this.pasteHandler);
+  },
 
-  setup: on('didInsertElement', function() {
-    this.setValue();
-    once(() => this._processInput());
+  didInsertElement() {
+    this._super(...arguments)
 
-    this.$().on('paste', (event) => {
-      this.handlePaste(event, this);
-    });
+    this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
+    this._mutationObserver.observe(this.element, {attributes: false, childList: true, characterData: true, subtree: true});
+    this.updateDom();
 
     if (this.get('autofocus')) {
-      this.$().focus();
+      this.element.focus();
     }
-  }),
 
-  tidy: on('willDestroyElement', function() {
-    this.$().off('paste');
-  }),
+    this.element.addEventListener('paste', this._pasteHandler);
+  },
 
-  _observeValue: true,
-  valueChanged: observer('value', function() {
-    if (this.get('_observeValue')) {
-      this.setValue();
-    }
-  }),
+  willDestroyElement() {
+    this.element.removeEventListener('paste', this._pasteHandler);
+    this._mutationObserver.disconnect();
+  },
 
-  setValue() {
-    if (this.element) {
-      this.$().text(this.get('value'));
+  domChanged() {
+    const text = this.element.innerText;
+    this.setProperties({
+      value: text,
+      _internalValue: text
+    });
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.set('contenteditable', !this.get('disabled'));
+  },
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+    // if update has been initiated by a change of the dom (user entered something) we don't do anything because
+    // - value has already been updated by domChanged
+    // - the rendered text already shows the current value
+    if (this.get('value') != this.get('_internalValue')) {
+      this.updateDom();
     }
   },
 
-  stringInterpolator(s) { return s; },
-
-  _getInputValue() {
-    if (this.get('inputType') === "html") {
-      // Deocde html entities
-      let val = this.$().html();
-      val = this.$('<div/>').html(val).text();
-      return val;
+  updateDom() {
+    const value = this.get('value');
+    if (value === undefined || value === null) {
+      this.element.innerText = '';
     } else {
-      return this.element.innerText || this.element.textContent;
+      this.element.innerText = value;
     }
   },
 
-  _processInput() {
-    let val = this._getInputValue();
-    val = this.stringInterpolator(val);
-    val = this.htmlSafe(val);
-
-    this.set('_observeValue', false);
-    this.set('value', val);
-    this.set('_observeValue', true);
-  },
-
-  htmlSafe(val) {
-    if (this.get('inputType') === "html") {
-      return htmlSafe(val).toString();
-    } else {
-      return val;
-    }
-  },
-
-  isUnderMaxLength(val) {
-    return isEmpty(this.get('maxlength')) ||
-    val.length < this.get('maxlength');
-  },
-
-  updateValue: on('keyUp', function(event) {
-    this._processInput();
-    this.handleKeyUp(event);
-  }),
-
-  handleKeyUp(event) {
-    if (this.get('readonly')) {
-      event.preventDefault();
-      return false;
-    }
-
-    this.sendAction('key-up', this.get('value'), event);
-  },
- insertTextAtCursor(text) {
-    let sel, range;
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.getRangeAt && sel.rangeCount) {
-            range = sel.getRangeAt(0);
-            range.deleteContents();
-            /** Paste text **/
-            range.insertNode(document.createTextNode(text));
-            range.collapse(false);
-            /** use the values of the updated range object to reset it start position **/
-            range.setStart(range.endContainer,range.endOffset);
-            /** collapse it to turn it into a single cursor **/
-            range.collapse(true);
-            /** remove everything **/
-            sel.removeAllRanges();
-            /** add our fresh range **/
-            sel.addRange(range);
-        }
-    } else if (document.selection && document.selection.createRange) {
-        document.selection.createRange().text = text;
-    }
-  },
-
-  /* Events */
-  handlePaste(event, _this) {
-    let content = event.originalEvent.clipboardData.getData('text');
-    const currentVal = _this._getInputValue();
-
-    event.preventDefault();
-
-    if (window.getSelection().rangeCount > 0) {
-      //If in focus then allow paste
-      let start = window.getSelection().getRangeAt(0).startOffset;
-      let end = window.getSelection().getRangeAt(0).endOffset;
-
-      let freeSpace = _this.get('maxlength') - currentVal.length + (end - start);
-      if (_this.get('maxlength')) {
-        //Truncate content if there is a maxlength and content is larger than it
-        content = content.substring(0, freeSpace);
-      }
-
-      this.insertTextAtCursor(content);
-    }
-
-    let value = _this._getInputValue();
-    this.set('_observeValue', false);
-
-    if (!this.get('allowNewlines')) {
-      value = value.toString().replace(/\n/g, ' ');
-    }
-
-    if (this.get('type') === 'number') {
-      value = value.toString().replace(/[^0-9]/g, '');
-    }
-
-    this.set('value', value);
-    this.set('_observeValue', true);
-  },
-
-  keyDown(event) {
-    if (this.get('readonly')) {
-      event.preventDefault();
-      return false;
-    }
-
-    if (event.keyCode === 27) {
-      // Escape
-      this.sendAction('escape-press', this, event);
-    } else if (event.keyCode === 13) {
-      // Enter
-      this.sendAction('enter', this, event);
-      if (this.get('allowNewlines')) {
-        this.sendAction('insert-newline', this, event);
-      } else {
-        event.preventDefault();
-        return false;
-      }
-    }
-
-    this.sendAction('key-down', this.get('value'), event);
+  keyUp(event) {
+    this.get('key-up')(event);
   },
 
   keyPress(event) {
-    if (this.get('readonly')) {
+    const newLength = this.element.innerText.length - this.getSelectionLength();
+    if (this.get('maxlength') && newLength >= this.get('maxlength')) {
       event.preventDefault();
+      this.get('length-exceeded')(this.element.innerText.length + 1);
       return false;
     }
+    this.get('key-press')(event);
+  },
 
-    let val = this._getInputValue();
-    if (!this.isUnderMaxLength(val)) {
-      // Check if text is selected (typing will replace)
-      if (window.getSelection().rangeCount > 0) {
-        let start = window.getSelection().getRangeAt(0).startOffset;
-        let end = window.getSelection().getRangeAt(0).endOffset;
-        if (start === end) {
-          event.preventDefault();
-        }
+  keyDown(event) {
+    if (event.keyCode === 27) {
+      this.get('escape-press')(event);
+    } else if (event.keyCode === 13) {
+      this.get('enter')(event);
+      if (this.get('allowNewlines')) {
+          this.get('insert-newline')(event);
       } else {
-        event.preventDefault();
-      }
-    }
-
-    if (this.get('type') === 'number') {
-      const key = event.which || event.keyCode;
-      if (key < 48 || key >= 58) {
         event.preventDefault();
         return false;
       }
     }
-
-    this.sendAction('key-press', this, event);
+    this.get('key-down')(event);
   },
 
-  focusIn(event) {
-    this.sendAction('focus-in', this, event);
+  getSelectionLength() {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      return range.endOffset - range.startOffset;
+    }
+    return 0;
   },
 
-  focusOut(event) {
-    this.sendAction('focus-out', this, event);
+  pasteHandler(event) {
+    event.preventDefault();
+    // replace any html formatted text with its plain text equivalent
+    const text = event.clipboardData.getData("text/plain");
+    // check max length
+    if (this.get('maxlength')) {
+      // a selection will be replaced. substract the length of the selection from the total length
+      const selectionLength = this.getSelectionLength();
+      const afterPasteLength = text.length + this.element.innerText.length - selectionLength;
+      if (afterPasteLength > this.get('maxlength')) {
+        this.get('length-exceeded')(afterPasteLength);
+        return false;
+      }
+    }
+    document.execCommand("insertHTML", false, text);
+    this.get('paste')(text);
   },
 
-  mouseEnter(event) {
-    this.sendAction('mouse-enter', this, event);
-  },
+  enter() { },
 
-  mouseLeave(event) {
-    this.sendAction('mouse-leave', this, event);
-  },
+  'escape-press'() { },
+
+  'key-up'() { },
+
+  'key-press'() { },
+
+  'key-down'() { },
+
+  'length-exceeded'() { },
+
+  'insert-newline'() { },
+
+  paste() { }
+
+}).reopenClass({
+  positionalParams: ['value']
 });

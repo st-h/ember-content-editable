@@ -1,21 +1,15 @@
 import Controller from '@ember/controller';
 
 export default Controller.extend({
-  name: "<b>yo<i>lo</i></b> yup",
-  htmlText: '<div>In a div</div>',
+  value: "<div>this field should be focused</div>",
+  nullValue: null,
+  undefinedValue: undefined,
 
-  filter(currentValue, event) {
-    var k = event.which;
-    if (k <= 48 || k >= 58) {
-      event.preventDefault();
-    }
-  },
+  enterCount: 0,
+  escapeCount: 0,
+  mouseInside: false,
 
-  processor(s) {
-    if (s.indexOf('X') > -1) {
-      return s.substring(0, s.indexOf('X'));
-    } else {
-      return s;
-    }
+  displayLengthAlert(charCount) {
+    alert('you tried to enter ' + charCount + ' characters, which just seems to be enough for now. The limit is 40!');
   }
 });

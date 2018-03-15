@@ -1,19 +1,15 @@
-import { test } from 'qunit';
-import moduleForAcceptance from '../helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit, fillIn } from '@ember/test-helpers';
 
-moduleForAcceptance('Acceptance | login');
+module('Acceptance | login', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('visiting /', function(assert) {
-  visit('/');
-  andThen(function() {
-    assert.equal(currentURL(), '/');
+  test('visiting /', async function(assert) {
+
+    await visit('/');
+    await fillIn('#text-input', 'Hi there!');
+
+    assert.dom('#text-output').hasText('Hi there!');
   });
-
-  fillContentEditable('.jsTest-textInput', 'Hi there!');
-
-  andThen(function() {
-    assert.equal(find('input').val(), 'Hi there!', 'content editable text bound to input');
-    assert.equal(find('.jsTest-textOutput').text().trim(), 'Hi there!', 'content editable html bound to p');
-  });
-
 });

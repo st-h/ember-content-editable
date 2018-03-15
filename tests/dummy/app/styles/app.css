@@ -1,4 +1,13 @@
+[contenteditable] {
+  border: 1px solid grey;
+  padding: 2px;
+}
 
-.u-whiteSpacePre {
-  white-space: pre;
+.important {
+  background: rgba(255, 0, 0, .2);
+}
+
+.info {
+  background: rgba(0, 0, 0, .1);
+  padding: .5em;
 }
