@@ -20,6 +20,14 @@ export default Component.extend({
 
   init() {
     this._super();
+    this.set('keyWhitelist', [
+      8,  // backspace
+      27, // escape
+      37, // left arrow
+      38, // up arrow
+      39, // right arrow
+      40  // down arrow
+    ])
     this._pasteHandler = run.bind(this, this.pasteHandler);
   },
 
@@ -79,8 +87,10 @@ export default Component.extend({
   },
 
   keyPress(event) {
+    // Firefox seems to call this method on backspace and cursor keyboard events, whereas chrome does not.
+    // Therefore we keep a whitelist of keyCodes that we allow in case it is necessary.
     const newLength = this.element.innerText.length - this.getSelectionLength();
-    if (this.get('maxlength') && newLength >= this.get('maxlength')) {
+    if (this.get('maxlength') && newLength >= this.get('maxlength') && !this.get('keyWhitelist').includes(event.keyCode)) {
       event.preventDefault();
       this.get('length-exceeded')(this.element.innerText.length + 1);
       return false;
