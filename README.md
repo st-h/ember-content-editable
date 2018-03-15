@@ -30,20 +30,25 @@ Please add any concerns or missing functionality to this [issue](https://github.
 
 ## Usage
 
-Use it just like `input` or `textarea`.
+Use it just like `input` or `textarea`:
 
 ```javascript
-{{content-editable value=name
-                   placeholder="Your name"}}
+{{content-editable value=name placeholder="Your name"}}
 ```
 
-You can also pass in an extra CSS class if required, and of course specify the tag.
+You can also pass in an extra CSS class if required, and of course specify the tag:
 
 ```javascript
 {{content-editable value=name
                    placeholder="Your name"
                    class="name-field"
                    tagName="h3"}}
+```
+
+And lastly, you can also pass `value` as a positional parameter:
+
+```javascript
+{{content-editable name placeholder="Your name"}}
 ```
 
 ### Options
@@ -67,12 +72,13 @@ This addon supports events supported by the ember component model (except for ke
 event | description | argument
 -- | -- | --
 **insert-newline** | if `allowNewlines` is set to `true`, this event is triggered whenever a new line is inserted | event
-**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this event | total numbers of character entered
+**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this event | total numbers of character entered (number)
 **enter** | triggers when the enter key is pressed | event
 **escape-press** | triggers when the escape key is pressed | event
 **key-up** | `keyUp` replacement | event
 **key-press** | `keyPress` replacement | event
 **key-down** | `keyDown` replacement | event
+**paste** | trigger when content is pasted successfully (does not fire when the length is exceeded) | pasted text content (string) |
 
 ### Customizing Placeholder Color
 ```

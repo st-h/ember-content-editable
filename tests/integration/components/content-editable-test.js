@@ -37,6 +37,14 @@ module('Integration | Component | content editable', function(hooks) {
     assert.dom('.ember-content-editable').exists({ count: 1 });
   });
 
+  test('positional argument should work as expected', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`{{content-editable 'positonal argument text'}}`);
+
+    assert.dom('.ember-content-editable').hasText('positonal argument text');
+  });
+
   test('placeholder renders and stays on focus until the element has content', async function(assert) {
     assert.expect(5);
     this.set("value", "");
@@ -74,7 +82,7 @@ module('Integration | Component | content editable', function(hooks) {
     assert.equal(getPlaceholderContent(editable), "", "CSS before: placeholder content removed when `clearPlaceholderOnFocus` is used");
   });
 
-  test('Value updated when input changes', async function(assert) {
+  test('value updated when input changes', async function(assert) {
     assert.expect(2);
     this.set("value", "");
     await render(hbs`{{content-editable value=value placeholder="bananas"}}`);
@@ -86,7 +94,7 @@ module('Integration | Component | content editable', function(hooks) {
     assert.equal(this.get("value"), "gif not jif", "Value updated when input changed");
   });
 
-  test('Input updated when value changes', async function(assert) {
+  test('input updated when value changes', async function(assert) {
     assert.expect(2);
     this.set("value", "");
     await render(hbs`{{content-editable value=value placeholder="bananas"}}`);
@@ -221,11 +229,11 @@ module('Integration | Component | content editable', function(hooks) {
     triggerKeyEvent('.ember-content-editable', 'keydown', 65); //non-enter
   });
 
-  test('Pasting works for text', async function(assert) {
+  test('pasting works for text', async function(assert) {
     assert.expect(1);
     this.set('value', "");
 
-    await render(hbs`{{content-editable value=value maxlength='2000' class='jsTest-contentEditable'}}`);
+    await render(hbs`{{content-editable value=value maxlength='2000'}}`);
 
     const editable = this.element.getElementsByClassName('ember-content-editable')[0];
     await focus('.ember-content-editable');
@@ -234,16 +242,46 @@ module('Integration | Component | content editable', function(hooks) {
     assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
   });
 
-  test('Pasting works for html with no maxlength', async function(assert) {
+  test('pasting works for html with no maxlength', async function(assert) {
     assert.expect(1);
     this.set('value', "");
 
-    await render(hbs`{{content-editable value=value type='html' class='jsTest-contentEditable '}}`);
+    await render(hbs`{{content-editable value=value type='html'}}`);
 
     const editable = this.element.getElementsByClassName('ember-content-editable')[0];
     await focus('.ember-content-editable');
     await editable.dispatchEvent(pasteEvent); // paste fake event
 
     assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+  });
+
+  test('paste event is triggered', async function(assert) {
+    assert.expect(1);
+    this.set('value', "");
+    this.set('paste', function(text) {
+      assert.equal(text, 'Pasted text');
+    });
+
+    await render(hbs`{{content-editable value=value paste=paste}}`);
+
+    const editable = this.element.getElementsByClassName('ember-content-editable')[0];
+    await focus('.ember-content-editable');
+    await editable.dispatchEvent(pasteEvent); // paste fake event
+  });
+
+  test('exceeding maxlength aborts paste', async function(assert) {
+    assert.expect(1);
+    this.set('value', "");
+    this.set('paste', function() {
+      assert.ok(false, 'paste event should not be triggered when maxlength is exceeded');
+    });
+
+    await render(hbs`{{content-editable value=value maxlength='2'}}`);
+
+    const editable = this.element.getElementsByClassName('ember-content-editable')[0];
+    await focus('.ember-content-editable');
+    await editable.dispatchEvent(pasteEvent); // paste fake event
+
+    assert.equal(this.get('value'), '');
   });
 });

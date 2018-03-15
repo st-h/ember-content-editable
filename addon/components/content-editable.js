@@ -127,6 +127,7 @@ export default Component.extend({
       }
     }
     document.execCommand("insertHTML", false, text);
+    this.get('paste')(text);
   },
 
   enter() { },
@@ -141,5 +142,10 @@ export default Component.extend({
 
   'length-exceeded'() { },
 
-  'insert-newline'() { }
+  'insert-newline'() { },
+
+  paste() { }
+
+}).reopenClass({
+  positionalParams: ['value']
 });

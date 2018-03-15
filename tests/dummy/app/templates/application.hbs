@@ -8,7 +8,7 @@
                    length-exceeded=(action displayLengthAlert)
                    id="text-input" class="important" autofocus=true}}
 </pre>
-{{content-editable value=value placeholder="enter something" maxlength=40
+{{content-editable value placeholder="enter something" maxlength=40
                    mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
                    enter=(action incrementProperty 'enterCount' 1)
                    escape-press=(action incrementProperty 'escapeCount' 1)
