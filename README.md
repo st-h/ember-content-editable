@@ -64,6 +64,7 @@ clearPlaceholderOnFocus | If true, the placeholder will be cleared as soon as th
 
 
 ### Events
+
 This addon supports events supported by the ember component model (except for keyboard events). See the ember documentation for details or the dummy app within the test folder for an example. As this addon uses keyboard events slightly renamed hooks are available as making use of the default hooks would override the addons implementation.
 
 event | description | argument
@@ -78,6 +79,7 @@ event | description | argument
 **paste** | triggers when content is pasted successfully (does not fire when maxlength is exceeded) | pasted text content (string)
 
 ### Customizing Placeholder Color
+
 ```
 .ember-content-editable:empty {
   color: rgba(0,0,0,0.6);
@@ -85,9 +87,11 @@ event | description | argument
 ```
 
 ## Common Problems
+
 These are some solutions to common problems browsers have with contenteditable elements.
 
 ### Tab Index
+
 The `tabindex` attribute is bound to the element in the DOM, but only [certain tags support it](http://www.w3.org/TR/html4/interact/forms.html#adef-tabindex).
 
 >The following elements support the tabindex attribute: A, AREA, BUTTON, INPUT, OBJECT, SELECT, and TEXTAREA.
@@ -95,9 +99,11 @@ The `tabindex` attribute is bound to the element in the DOM, but only [certain t
 So to use `tabindex`, you'll also need to set `tagName` to one of those.
 
 ### Newlines aren't showing
+
 Try using `whitespace: pre-line;` or `whitespace: pre-wrap;` in your CSS.
 
 ### I can't blur the element
+
 A solution to this is to call `window.getSelection().removeAllRanges()` after you call `blur()` on the element.
 
 For example, if you have `enter='endEditing'` on your content-editable, the following action would prevent the newline and blur the element.
@@ -111,6 +117,7 @@ endEditing(contentEditable, event) {
 ```
 
 ### Cursor appears too big when element is empty
+
 Setting `display: block;` in CSS seems to solve this.
 
 ## Acknowledements
