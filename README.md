@@ -16,17 +16,14 @@ Ember cli contenteditable component, with placeholder and value binding. Use it 
 
 ### Versions
 
-**0.11.1** is the last stable version making use of the codebase implemented by [AddJAm](https://github.com/AddJAm) which should be compatible with older ember and IE releases.
+Since version **1.0.0** this addon has been rewritten to focus on using contenteditable elements as input replacements. In case you need previously available functionality or IE9 or IE10 support, **0.11.1** was the last release of the 0.x.x series.
 
-**1.0.0-alpha.5** is a prerelease of a complete rewrite with the following changes:
+Major changes as of **1.0.0**:
 - removes jquery dependencies
 - removes IE9 and IE10 support
 - no observers and computed properties were harmed
-- only supports type `text` and therefore removes the `type` property completely
-- removes `stringInterpolator` functionality
-
-This enables us to significantly reduce the complexity of this addon as we now are able to rely on the browser to handle the modification of the dom and we only need to make sure to keep the binding of the provided property in sync. This should eliminate any potential bugs resulting from earlier custom implementations of key and copy-paste handlers as well as modifying the caret position.
-Please add any concerns or missing functionality to this [issue](https://github.com/st-h/ember-content-editable/issues/36) or contribute your ideas to the [1.0.0-rewrite](https://github.com/st-h/ember-content-editable/tree/1.0.0-rewrite) branch.
+- only supports type text and therefore removes the type property completely
+- removes stringInterpolator functionality
 
 ## Usage
 
@@ -78,7 +75,7 @@ event | description | argument
 **key-up** | `keyUp` replacement | event
 **key-press** | `keyPress` replacement | event
 **key-down** | `keyDown` replacement | event
-**paste** | trigger when content is pasted successfully (does not fire when the length is exceeded) | pasted text content (string) |
+**paste** | triggers when content is pasted successfully (does not fire when maxlength is exceeded) | pasted text content (string)
 
 ### Customizing Placeholder Color
 ```
