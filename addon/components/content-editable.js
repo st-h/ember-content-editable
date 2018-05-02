@@ -131,6 +131,7 @@ export default Component.extend({
     } else if (window.clipboardData) {
       text = window.clipboardData.getData('Text');
     }
+
     // check max length
     if (this.get('maxlength')) {
       // a selection will be replaced. substract the length of the selection from the total length
@@ -141,21 +142,27 @@ export default Component.extend({
         return false;
       }
     }
+
+    this.insertText(text);
+    this.get('paste')(text);
+  },
+
+  insertText(text) {
     if (document.queryCommandSupported('insertText')) {
       document.execCommand('insertText', false, text);
     } else {
-      let range = document.getSelection().getRangeAt(0);
+      const range = document.getSelection().getRangeAt(0);
       range.deleteContents();
-      let textNode = document.createTextNode(text);
+
+      const textNode = document.createTextNode(text);
       range.insertNode(textNode);
       range.selectNodeContents(textNode);
       range.collapse(false);
 
-      let selection = document.getSelection();
+      const selection = document.getSelection();
       selection.removeAllRanges();
       selection.addRange(range);
     }
-    this.get('paste')(text);
   },
 
   enter() { },
