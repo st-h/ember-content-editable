@@ -143,26 +143,8 @@ export default Component.extend({
       }
     }
 
-    this.insertText(text);
+    crossSupportInsertText(text);
     this.get('paste')(text);
-  },
-
-  insertText(text) {
-    if (document.queryCommandSupported('insertText')) {
-      document.execCommand('insertText', false, text);
-    } else {
-      const range = document.getSelection().getRangeAt(0);
-      range.deleteContents();
-
-      const textNode = document.createTextNode(text);
-      range.insertNode(textNode);
-      range.selectNodeContents(textNode);
-      range.collapse(false);
-
-      const selection = document.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
   },
 
   enter() { },
@@ -184,3 +166,21 @@ export default Component.extend({
 }).reopenClass({
   positionalParams: ['value']
 });
+
+function crossSupportInsertText(text) {
+  if (document.queryCommandSupported('insertText')) {
+    document.execCommand('insertText', false, text);
+  } else {
+    const range = document.getSelection().getRangeAt(0);
+    range.deleteContents();
+
+    const textNode = document.createTextNode(text);
+    range.insertNode(textNode);
+    range.selectNodeContents(textNode);
+    range.collapse(false);
+
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+}
