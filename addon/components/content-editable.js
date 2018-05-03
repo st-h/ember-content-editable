@@ -125,7 +125,13 @@ export default Component.extend({
   pasteHandler(event) {
     event.preventDefault();
     // replace any html formatted text with its plain text equivalent
-    const text = event.clipboardData.getData("text/plain");
+    let text = '';
+    if (event.clipboardData) {
+      text = event.clipboardData.getData('text/plain');
+    } else if (window.clipboardData) {
+      text = window.clipboardData.getData('Text');
+    }
+
     // check max length
     if (this.get('maxlength')) {
       // a selection will be replaced. substract the length of the selection from the total length
@@ -136,7 +142,8 @@ export default Component.extend({
         return false;
       }
     }
-    document.execCommand("insertHTML", false, text);
+
+    crossSupportInsertText(text);
     this.get('paste')(text);
   },
 
@@ -159,3 +166,21 @@ export default Component.extend({
 }).reopenClass({
   positionalParams: ['value']
 });
+
+function crossSupportInsertText(text) {
+  if (document.queryCommandSupported('insertText')) {
+    document.execCommand('insertText', false, text);
+  } else {
+    const range = document.getSelection().getRangeAt(0);
+    range.deleteContents();
+
+    const textNode = document.createTextNode(text);
+    range.insertNode(textNode);
+    range.selectNodeContents(textNode);
+    range.collapse(false);
+
+    const selection = document.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+}
