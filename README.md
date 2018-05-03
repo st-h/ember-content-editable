@@ -25,6 +25,10 @@ Major changes as of **1.0.0**:
 - only supports type text and therefore removes the type property completely
 - removes stringInterpolator functionality
 
+## Demo
+
+Our demo page can be found [here](http://st-h.github.io/ember-content-editable/)
+
 ## Usage
 
 Use it just like `input` or `textarea`:
