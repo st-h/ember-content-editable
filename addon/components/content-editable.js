@@ -34,9 +34,9 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments)
 
+    this.updateDom();
     this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
     this._mutationObserver.observe(this.element, {attributes: false, childList: true, characterData: true, subtree: true});
-    this.updateDom();
 
     if (this.get('autofocus')) {
       this.element.focus();
