@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.0.2]
+- [#52](https://github.com/st-h/ember-content-editable/pull/52) Update dom before initializing MutationObserver. contributed by @ctjhoa
+
 ## [1.0.1]
 - [#50](https://github.com/st-h/ember-content-editable/pull/50) fixes ie11 support. contributed by @webark
 
