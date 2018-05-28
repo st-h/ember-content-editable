@@ -27,12 +27,12 @@ export default Component.extend({
       38, // up arrow
       39, // right arrow
       40  // down arrow
-    ])
+    ]);
     this._pasteHandler = run.bind(this, this.pasteHandler);
   },
 
   didInsertElement() {
-    this._super(...arguments)
+    this._super(...arguments);
 
     this.updateDom();
     this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
