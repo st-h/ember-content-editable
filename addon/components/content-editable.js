@@ -19,7 +19,8 @@ export default Component.extend({
   clearPlaceholderOnFocus: false,
 
   init() {
-    this._super();
+    this._super(...arguments);
+
     this.set('keyWhitelist', [
       8,  // backspace
       27, // escape
@@ -46,6 +47,8 @@ export default Component.extend({
   },
 
   willDestroyElement() {
+    this._super(...arguments);
+
     this.element.removeEventListener('paste', this._pasteHandler);
     this._mutationObserver.disconnect();
   },
