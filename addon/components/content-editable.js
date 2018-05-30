@@ -19,7 +19,8 @@ export default Component.extend({
   clearPlaceholderOnFocus: false,
 
   init() {
-    this._super();
+    this._super(...arguments);
+
     this.set('keyWhitelist', [
       8,  // backspace
       27, // escape
@@ -27,12 +28,12 @@ export default Component.extend({
       38, // up arrow
       39, // right arrow
       40  // down arrow
-    ])
+    ]);
     this._pasteHandler = run.bind(this, this.pasteHandler);
   },
 
   didInsertElement() {
-    this._super(...arguments)
+    this._super(...arguments);
 
     this.updateDom();
     this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
@@ -46,6 +47,8 @@ export default Component.extend({
   },
 
   willDestroyElement() {
+    this._super(...arguments);
+
     this.element.removeEventListener('paste', this._pasteHandler);
     this._mutationObserver.disconnect();
   },
