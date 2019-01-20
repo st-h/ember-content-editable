@@ -45,7 +45,7 @@ jobs:
     - stage: "Additional Tests"
       env: EMBER_TRY_SCENARIO=ember-lts-2.16
     - env: EMBER_TRY_SCENARIO=ember-lts-2.18
-    - env: EMBER_TRY_SCENARIO=ember-release
+    - env: EMBER_TRY_SCENARIO=ember-release COVERAGE=true
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default-without-jquery
@@ -59,3 +59,6 @@ install:
 
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
+
+after_script:
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
