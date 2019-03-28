@@ -9,6 +9,7 @@
 
 [contenteditable] {
   cursor: text;
+  -webkit-user-modify: read-write-plaintext-only;
 }
 
 .ember-content-editable:empty {
