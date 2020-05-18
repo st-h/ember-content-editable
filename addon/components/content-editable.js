@@ -39,7 +39,7 @@ export default Component.extend({
     this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
     this._mutationObserver.observe(this.element, {attributes: false, childList: true, characterData: true, subtree: true});
 
-    if (this.get('autofocus')) {
+    if (this.autofocus) {
       this.element.focus();
     }
 
@@ -60,7 +60,7 @@ export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    this.set('contenteditable', !this.get('disabled'));
+    this.set('contenteditable', !this.disabled);
   },
 
   didUpdateAttrs() {
@@ -69,7 +69,7 @@ export default Component.extend({
   },
 
   updateDom() {
-    const value = this.get('value');
+    const value = this.value;
     if (value === undefined || value === null) {
       this.element.innerText = '';
     } else if (this.element.innerText != value) {
@@ -78,34 +78,34 @@ export default Component.extend({
   },
 
   keyUp(event) {
-    this.get('key-up')(event);
+    this['key-up'](event);
   },
 
   keyPress(event) {
     // Firefox seems to call this method on backspace and cursor keyboard events, whereas chrome does not.
     // Therefore we keep a whitelist of keyCodes that we allow in case it is necessary.
     const newLength = this.element.innerText.length - this.getSelectionLength();
-    if (this.get('maxlength') && newLength >= this.get('maxlength') && !this.get('keyWhitelist').includes(event.keyCode)) {
+    if (this.maxlength && newLength >= this.maxlength && !this.keyWhitelist.includes(event.keyCode)) {
       event.preventDefault();
-      this.get('length-exceeded')(this.element.innerText.length + 1);
+      this['length-exceeded'](this.element.innerText.length + 1);
       return false;
     }
-    this.get('key-press')(event);
+    this['key-press'](event);
   },
 
   keyDown(event) {
     if (event.keyCode === 27) {
-      this.get('escape-press')(event);
+      this['escape-press'](event);
     } else if (event.keyCode === 13) {
-      this.get('enter')(event);
-      if (this.get('allowNewlines')) {
-          this.get('insert-newline')(event);
+      this.enter(event);
+      if (this.allowNewlines) {
+          this['insert-newline'](event);
       } else {
         event.preventDefault();
         return false;
       }
     }
-    this.get('key-down')(event);
+    this['key-down'](event);
   },
 
   getSelectionLength() {
@@ -128,18 +128,18 @@ export default Component.extend({
     }
 
     // check max length
-    if (this.get('maxlength')) {
+    if (this.maxlength) {
       // a selection will be replaced. substract the length of the selection from the total length
       const selectionLength = this.getSelectionLength();
       const afterPasteLength = text.length + this.element.innerText.length - selectionLength;
-      if (afterPasteLength > this.get('maxlength')) {
-        this.get('length-exceeded')(afterPasteLength);
+      if (afterPasteLength > this.maxlength) {
+        this['length-exceeded'](afterPasteLength);
         return false;
       }
     }
 
     crossSupportInsertText(text);
-    this.get('paste')(text);
+    this.paste(text);
   },
 
   enter() { },
