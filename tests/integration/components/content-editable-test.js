@@ -87,11 +87,11 @@ module('Integration | Component | content editable', function(hooks) {
     this.set("value", "");
     await render(hbs`{{content-editable value=value placeholder="bananas"}}`);
 
-    assert.equal(this.get("value"), "", "Initial value is correct");
+    assert.equal(this.value, "", "Initial value is correct");
 
     await fillIn('.ember-content-editable', "gif not jif");
 
-    assert.equal(this.get("value"), "gif not jif", "Value updated when input changed");
+    assert.equal(this.value, "gif not jif", "Value updated when input changed");
   });
 
   test('input updated when value changes', async function(assert) {
@@ -241,7 +241,7 @@ module('Integration | Component | content editable', function(hooks) {
     await focus('.ember-content-editable');
     await editable.dispatchEvent(pasteEvent); // paste fake event
 
-    assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+    assert.equal(this.value, 'Pasted text', 'Pasted value is correct');
   });
 
   test('pasting works for html with no maxlength', async function(assert) {
@@ -254,7 +254,7 @@ module('Integration | Component | content editable', function(hooks) {
     await focus('.ember-content-editable');
     await editable.dispatchEvent(pasteEvent); // paste fake event
 
-    assert.equal(this.get('value'), 'Pasted text', 'Pasted value is correct');
+    assert.equal(this.value, 'Pasted text', 'Pasted value is correct');
   });
 
   test('paste event is triggered', async function(assert) {
@@ -284,6 +284,6 @@ module('Integration | Component | content editable', function(hooks) {
     await focus('.ember-content-editable');
     await editable.dispatchEvent(pasteEvent); // paste fake event
 
-    assert.equal(this.get('value'), '');
+    assert.equal(this.value, '');
   });
 });
