@@ -55,10 +55,7 @@ export default Component.extend({
 
   domChanged() {
     const text = this.element.innerText;
-    this.setProperties({
-      value: text,
-      _internalValue: text
-    });
+    this.set('value', text);
   },
 
   didReceiveAttrs() {
@@ -68,19 +65,14 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    // if update has been initiated by a change of the dom (user entered something) we don't do anything because
-    // - value has already been updated by domChanged
-    // - the rendered text already shows the current value
-    if (this.get('value') != this.get('_internalValue')) {
-      this.updateDom();
-    }
+    this.updateDom();
   },
 
   updateDom() {
     const value = this.get('value');
     if (value === undefined || value === null) {
       this.element.innerText = '';
-    } else {
+    } else if (this.element.innerText != value) {
       this.element.innerText = value;
     }
   },

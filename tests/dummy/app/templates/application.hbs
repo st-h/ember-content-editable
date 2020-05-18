@@ -10,7 +10,9 @@
                    id="text-input" class="important" autofocus=true&#125;&#125;
 </pre>
 {{content-editable value placeholder="enter something" maxlength=40
-                   mouseEnter=(action (mut mouseInside) true) mouseLeave=(action (mut mouseInside) false)
+                   allowNewlines=false
+                   mouseEnter=(action (mut mouseInside) true)
+                   mouseLeave=(action (mut mouseInside) false)
                    enter=(action incrementProperty "enterCount" 1)
                    escape-press=(action incrementProperty "escapeCount" 1)
                    length-exceeded=(action displayLengthAlert)

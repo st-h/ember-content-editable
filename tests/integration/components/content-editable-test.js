@@ -217,7 +217,7 @@ module('Integration | Component | content editable', function(hooks) {
   });
 
   test('allowNewlines=false works', async function(assert) {
-    assert.expect(1);
+    assert.expect(2);
     this.set('value', "");
     this.set('keyDown', function(event) {
       assert.ok(!event.defaultPrevented);
@@ -227,6 +227,8 @@ module('Integration | Component | content editable', function(hooks) {
 
     triggerKeyEvent('.ember-content-editable', 'keydown', 13); //enter
     triggerKeyEvent('.ember-content-editable', 'keydown', 65); //non-enter
+
+    assert.equal("", this.value, 'value should not be modified by pressing enter when allowNewlines is false');
   });
 
   test('pasting works for text', async function(assert) {
