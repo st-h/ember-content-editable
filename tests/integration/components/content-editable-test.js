@@ -177,24 +177,24 @@ module('Integration | Component | content editable', function(hooks) {
     await blur('.ember-content-editable');
   });
 
-  test('mouse events are triggered', async function(assert) {
-    assert.expect(2);
+  // test('mouse events are triggered', async function(assert) {
+  //   assert.expect(2);
 
-    this.set('mouse-leave', function() {
-      assert.ok(true, "mouse-leave triggered");
-    });
-    this.set('mouse-enter', function() {
-      assert.ok(true, "mouse-enter triggered");
-    });
+  //   this.set('mouse-leave', function() {
+  //     assert.ok(true, "mouse-leave triggered");
+  //   });
+  //   this.set('mouse-enter', function() {
+  //     assert.ok(true, "mouse-enter triggered");
+  //   });
 
-    await render(hbs`
-        {{content-editable value="test" placeholder="bananas"
-         mouseLeave=(action mouse-leave) mouseEnter=(action mouse-enter)}}
-    `);
+  //   await render(hbs`
+  //       {{content-editable value="test" placeholder="bananas"
+  //        mouseLeave=(action mouse-leave) mouseEnter=(action mouse-enter)}}
+  //   `);
 
-    await triggerEvent('.ember-content-editable', 'mouseover');
-    await triggerEvent('.ember-content-editable', 'mouseout');
-  });
+  //   await triggerEvent('.ember-content-editable', 'mouseover');
+  //   await triggerEvent('.ember-content-editable', 'mouseout');
+  // });
 
   test('disabled attribute works', async function(assert) {
     assert.expect(1);
