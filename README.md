@@ -15,6 +15,12 @@ Ember cli contenteditable component, with placeholder and value binding. Use it 
 
 `ember install ember-content-editable`
 
+### Prerequisites
+
+* Ember.js v3.12 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
+
 ### Versions
 
 Since version **1.0.0** this addon has been rewritten to focus on using contenteditable elements as input replacements. In case you need previously available functionality or IE9 or IE10 support, **0.11.1** was the last release of the 0.x.x series.
