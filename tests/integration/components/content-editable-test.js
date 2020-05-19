@@ -5,6 +5,9 @@ import hbs from 'htmlbars-inline-precompile';
 
 function getPlaceholderContent(element) {
   let placeholderContent = window.getComputedStyle(element, '::before').content;
+  if (placeholderContent == 'none') {
+    return "";
+  }
   return placeholderContent.replace(/"/g, ""); // presence of quotes varies in phantomjs vs chrome
 }
 
@@ -63,7 +66,7 @@ module('Integration | Component | content editable', function(hooks) {
     // Check placeholder hidden when value is present
     this.set("value", "zebra");
 
-    assert.equal(getPlaceholderContent(editable), 'none', "Placeholder not shown when content present");
+    assert.equal(getPlaceholderContent(editable), '', "Placeholder not shown when content present");
   });
 
   test('`clearPlaceholderOnFocus` option removes placeholder on intial focus', async function(assert) {
