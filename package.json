@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "coveralls": "^3.1.0",
-    "ember-cli-babel": "^7.19.0",
+    "ember-cli-babel": "^7.20.5",
     "ember-cli-htmlbars": "^5.1.2"
   },
   "devDependencies": {
