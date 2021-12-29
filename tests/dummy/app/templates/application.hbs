@@ -1,41 +1,12 @@
-{{! template-lint-disable attribute-indentation }}
 <h1>ember-content-editable</h1>
 
 <pre>
-  &#123;&#123;content-editable value=value placeholder="enter something" maxlength=40
-                   enter=(fn incrementProperty "enterCount" 1)
-                   escape-press=(fn incrementProperty "escapeCount" 1)
-                   length-exceeded=(fn displayLengthAlert)
-                   id="text-input" class="important" autofocus=true&#125;&#125;
+  &#60;div &#123;&#123;content-editable value=this.value placeholder="enter something" onChange=(fn (mut this.value)) autofocus=true &#125;&#125;&#62;&#60;/div&#62;
 </pre>
-{{content-editable this.value
-                   placeholder="enter something"
-                   maxlength=40
-                   allowNewlines=false
-                   enter=(fn this.incrementProperty "enterCount" 1)
-                   escape-press=(fn this.incrementProperty "escapeCount" 1)
-                   length-exceeded=(fn this.displayLengthAlert)
-                   key-up=(fn this.incrementProperty "keyup" 1)
-                   key-press=(fn this.incrementProperty "keypress" 1)
-                   key-down=(fn this.incrementProperty "keydown" 1)
-                   id="text-input"
-                   class="important"
-                   autofocus=true}}
+
+<div {{content-editable value=this.value placeholder="enter something" onChange=(fn (mut this.value)) autofocus=true}}></div>
 
 <p class="jsTest-textOutput info">
   value:
   <pre id="text-output">{{this.value}}</pre>
 </p>
-
-<div class="info">
-  <div>text length: {{this.value.length}}</div>
-  <div>enter pressed: {{this.enterCount}}</div>
-  <div>escape pressed: {{this.escapeCount}}</div>
-  <div>key-up: {{this.keyup}}</div>
-  <div>key-press: {{this.keypress}}</div>
-  <div>key-down: {{this.keydown}}</div>
-  <button {{on 'click' (fn (mut this.value) "")}} type="button">set value to empty string</button>
-</div>
-
-<ContentEditable @value={{this.nullValue}} @placeholder="placeholder for null value" />
-<ContentEditable @value={{this.undefinedValue}} @placeholder="placeholder for undefined value" />

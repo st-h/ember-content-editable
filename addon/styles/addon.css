@@ -3,10 +3,6 @@
   content: attr(placeholder);
 }
 
-.ember-content-editable.clear-on-focus:empty:focus:before {
-  content: '';
-}
-
 .ember-content-editable {
   cursor: text;
   -webkit-user-modify: read-write-plaintext-only;
