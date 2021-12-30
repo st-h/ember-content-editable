@@ -17,9 +17,9 @@ Ember cli contenteditable component, with placeholder and value binding. Use it 
 
 ### Prerequisites
 
-* Ember.js v3.12 or above
-* Ember CLI v2.13 or above
-* Node.js v10 or above
+* Ember.js v3.24 or above
+* Ember CLI v3.24 or above
+* Node.js v12 or above
 
 ### Versions
 
