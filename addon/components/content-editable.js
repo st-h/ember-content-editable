@@ -1,112 +1,60 @@
-import Component from '@ember/component';
-import { run } from "@ember/runloop";
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['ember-content-editable'],
-  classNameBindings: ['clearPlaceholderOnFocus:clear-on-focus'],
-  attributeBindings: [
-    'contenteditable',
-    'placeholder',
-    'spellcheck',
-    'tabindex',
-    'disabled'
-  ],
+const alwaysAllowedKeys = [
+  8, // backspace
+  9, // tab
+  12, // clear
+  16, // shift
+  17, // control
+  18, // option
+  20, // caps
+  27, // escape
+  35, // end
+  36, // home
+  37, // left arrow
+  38, // up arrow
+  39, // right arrow
+  40, // down arrow
+  46, // delete
+  91, // meta left
+  93, // meta right
+];
 
-  disabled: false,
-  spellcheck: null,
-  allowNewlines: true,
-  autofocus: false,
-  clearPlaceholderOnFocus: false,
+export default class ContentEditableComponent extends Component {
 
-  init() {
-    this._super(...arguments);
+  @action
+  onKeyDown(event) {
+    const isEnter = event.keyCode === 13;
+    const isEscape = event.keyCode === 27;
 
-    this.set('keyWhitelist', [
-      8,  // backspace
-      27, // escape
-      37, // left arrow
-      38, // up arrow
-      39, // right arrow
-      40  // down arrow
-    ]);
-    this._pasteHandler = run.bind(this, this.pasteHandler);
-  },
-
-  didInsertElement() {
-    this._super(...arguments);
-
-    this.updateDom();
-    this._mutationObserver = new MutationObserver(run.bind(this, this.domChanged));
-    this._mutationObserver.observe(this.element, {attributes: false, childList: true, characterData: true, subtree: true});
-
-    if (this.autofocus) {
-      this.element.focus();
+    if (isEnter && this.args.onEnter) {
+      this.args.onEnter();
+    }
+    if (isEscape && this.args.onEscape) {
+      this.args.onEscape();
     }
 
-    this.element.addEventListener('paste', this._pasteHandler);
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-
-    this.element.removeEventListener('paste', this._pasteHandler);
-    this._mutationObserver.disconnect();
-  },
-
-  domChanged() {
-    const text = this.element.innerText;
-    this.set('value', text);
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.set('contenteditable', !this.disabled);
-  },
-
-  didUpdateAttrs() {
-    this._super(...arguments);
-    this.updateDom();
-  },
-
-  updateDom() {
-    const value = this.value;
-    if (value === undefined || value === null) {
-      this.element.innerText = '';
-    } else if (this.element.innerText != value) {
-      this.element.innerText = value;
-    }
-  },
-
-  keyUp(event) {
-    this['key-up'](event);
-  },
-
-  keyPress(event) {
-    // Firefox seems to call this method on backspace and cursor keyboard events, whereas chrome does not.
-    // Therefore we keep a whitelist of keyCodes that we allow in case it is necessary.
-    const newLength = this.element.innerText.length - this.getSelectionLength();
-    if (this.maxlength && newLength >= this.maxlength && !this.keyWhitelist.includes(event.keyCode)) {
+    if (this.args.maxlength &&
+        this.args.maxlength <= this.args.value?.length &&
+        !alwaysAllowedKeys.includes(event.keyCode)
+    ) {
       event.preventDefault();
-      this['length-exceeded'](this.element.innerText.length + 1);
-      return false;
-    }
-    this['key-press'](event);
-  },
-
-  keyDown(event) {
-    if (event.keyCode === 27) {
-      this['escape-press'](event);
-    } else if (event.keyCode === 13) {
-      this.enter(event);
-      if (this.allowNewlines) {
-          this['insert-newline'](event);
-      } else {
-        event.preventDefault();
-        return false;
+      if (this.args.onLengthExceeded) {
+        this.args.onLengthExceeded(this.args.value?.length);
       }
+      return;
     }
-    this['key-down'](event);
-  },
+
+    if (!this.args.allowNewlines && isEnter) {
+      event.preventDefault();
+      return;
+    }
+
+    if (this.args.onKey) {
+      this.args.onKey(event);
+    }
+  }
 
   getSelectionLength() {
     const selection = window.getSelection();
@@ -115,9 +63,10 @@ export default Component.extend({
       return range.endOffset - range.startOffset;
     }
     return 0;
-  },
+  }
 
-  pasteHandler(event) {
+  @action
+  onPaste(event) {
     event.preventDefault();
     // replace any html formatted text with its plain text equivalent
     let text = '';
@@ -128,39 +77,24 @@ export default Component.extend({
     }
 
     // check max length
-    if (this.maxlength) {
+    if (this.args.maxlength) {
       // a selection will be replaced. substract the length of the selection from the total length
       const selectionLength = this.getSelectionLength();
-      const afterPasteLength = text.length + this.element.innerText.length - selectionLength;
-      if (afterPasteLength > this.maxlength) {
-        this['length-exceeded'](afterPasteLength);
+      const afterPasteLength = text.length + this.args.value.length - selectionLength;
+      if (afterPasteLength > this.args.maxlength) {
+        if (this.args.onLengthExceeded) {
+          this.args.onLengthExceeded(afterPasteLength);
+        }
         return false;
       }
     }
 
     crossSupportInsertText(text);
-    this.paste(text);
-  },
-
-  enter() { },
-
-  'escape-press'() { },
-
-  'key-up'() { },
-
-  'key-press'() { },
-
-  'key-down'() { },
-
-  'length-exceeded'() { },
-
-  'insert-newline'() { },
-
-  paste() { }
-
-}).reopenClass({
-  positionalParams: ['value']
-});
+    if (this.args.onPaste) {
+      this.args.onPaste(text);
+    }
+  }
+}
 
 function crossSupportInsertText(text) {
   if (document.queryCommandSupported('insertText')) {
