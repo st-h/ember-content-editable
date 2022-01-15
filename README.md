@@ -23,7 +23,7 @@ Ember cli contenteditable component, with placeholder and value binding. Use it 
 
 ### Versions
 
-Version 3.0.0 targets ember octane apps only. If you need support for older ember versions, please see previous versions of this addon. Version 3.0.0 is based on the [ember-content-editable-modifier](http://st-h.github.io/ember-content-editable-modifier/) addon.
+Version 3.0.0 targets ember octane apps only. If you need support for older ember versions, please see previous versions of this addon. Version 3.0.0 is based on the [ember-content-editable-modifier](https://github.com/st-h/ember-content-editable-modifier) addon.
 
 Major changes as of **3.0.0**:
 - *Breaking*: it is no longer possible to use two way binding within components, so consuming apps need to handle updates by providing a @onChange function!
