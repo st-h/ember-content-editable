@@ -1,0 +1,8 @@
+{{!-- template-lint-disable no-down-event-binding --}}
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div {{on 'keydown' this.onKeyDown}}
+     {{on 'paste' this.onPaste}}
+     {{content-editable value=@value onChange=@onChange placeholder=@placeholder autofocus=@autofocus disabled=@disabled}}
+     class={{if @clearPlaceholderOnFocus 'clear-on-focus'}}
+     ...attributes>
+</div>

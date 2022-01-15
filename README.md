@@ -17,20 +17,18 @@ Ember cli contenteditable component, with placeholder and value binding. Use it 
 
 ### Prerequisites
 
-* Ember.js v3.12 or above
-* Ember CLI v2.13 or above
-* Node.js v10 or above
+* Ember.js v3.24 or above
+* Ember CLI v3.24 or above
+* Node.js v12 or above
 
 ### Versions
 
-Since version **1.0.0** this addon has been rewritten to focus on using contenteditable elements as input replacements. In case you need previously available functionality or IE9 or IE10 support, **0.11.1** was the last release of the 0.x.x series.
+Version 3.0.0 targets ember octane apps only. If you need support for older ember versions, please see previous versions of this addon. Version 3.0.0 is based on the [ember-content-editable-modifier](http://st-h.github.io/ember-content-editable-modifier/) addon.
 
-Major changes as of **1.0.0**:
-- removes jquery dependencies
-- removes IE9 and IE10 support
-- no observers and computed properties were harmed
-- only supports type text and therefore removes the type property completely
-- removes stringInterpolator functionality
+Major changes as of **3.0.0**:
+- *Breaking*: it is no longer possible to use two way binding within components, so consuming apps need to handle updates by providing a @onChange function!
+- *Breaking*: event handler names are changed to follow a consistent pattern
+- internal rewrite
 
 ## Demo
 
@@ -40,23 +38,8 @@ Our demo page can be found [here](http://st-h.github.io/ember-content-editable/)
 
 Use it just like `input` or `textarea`:
 
-```javascript
-{{content-editable value=name placeholder="Your name"}}
 ```
-
-You can also pass in an extra CSS class if required, and of course specify the tag:
-
-```javascript
-{{content-editable value=name
-                   placeholder="Your name"
-                   class="name-field"
-                   tagName="h3"}}
-```
-
-And lastly, you can also pass `value` as a positional parameter:
-
-```javascript
-{{content-editable name placeholder="Your name"}}
+<ContentEditable @value={{this.value}} @onChange={{fn (mut this.value)}} @placeholder="Your name"/>
 ```
 
 ### Options
@@ -65,7 +48,6 @@ Option Name          | Description                                    | Default
 ---------------------|------------------------------------------------|---------
 value                | The value to be edited                         | `""`
 placeholder          | Placeholder displayed when value is blank      | `""`
-class                | String with any extra css class               | none
 spellcheck           | Uses browsers spellcheck, same as with `<input>` | none
 disabled             | If true, element can't be edited, focused or tabbed to | false
 maxlength            | Maximum length of the input, in characters     | none
@@ -80,14 +62,11 @@ This addon supports events supported by the ember component model (except for ke
 
 event | description | argument
 -- | -- | --
-**insert-newline** | if `allowNewlines` is set to `true`, this event is triggered whenever a new line is inserted | event
-**length-exceeded** | if `maxlength` is set, every action that exceeds the limit triggers this event | total numbers of character entered (number)
-**enter** | triggers when the enter key is pressed | event
-**escape-press** | triggers when the escape key is pressed | event
-**key-up** | `keyUp` replacement | event
-**key-press** | `keyPress` replacement | event
-**key-down** | `keyDown` replacement | event
-**paste** | triggers when content is pasted successfully (does not fire when maxlength is exceeded) | pasted text content (string)
+**onLengthExceeded** | if `maxlength` is set, every action that exceeds the limit triggers this event | total numbers of character entered (number)
+**onEnter** | triggers when the enter key is pressed | event
+**onEscape** | triggers when the escape key is pressed | event
+**onKey** | keydown event propagation | event
+**onPaste** | triggers when content is pasted successfully (does not fire when maxlength is exceeded) | pasted text content (string)
 
 ### Customizing Placeholder Color
 
@@ -133,7 +112,7 @@ Setting `display: block;` in CSS seems to solve this.
 
 ## Acknowledements
 
-[AddJAm](https://github.com/AddJAm) has done a great job writing and maintaining this addon for a long time. Thanks guys.
+[AddJAm](https://github.com/AddJAm) has done a great job writing and maintaining this addon for a long time in the past. Thanks guys.
 
 ## Contributions
 
