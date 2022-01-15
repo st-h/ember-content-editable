@@ -26,8 +26,9 @@ Ember cli contenteditable component, with placeholder and value binding. Use it 
 Version 3.0.0 targets ember octane apps only. If you need support for older ember versions, please see previous versions of this addon. Version 3.0.0 is based on the [ember-content-editable-modifier](http://st-h.github.io/ember-content-editable-modifier/) addon.
 
 Major changes as of **3.0.0**:
+- *Breaking*: it is no longer possible to use two way binding within components, so consuming apps need to handle updates by providing a @onChange function!
+- *Breaking*: event handler names are changed to follow a consistent pattern
 - internal rewrite
-- event handler names are changed to follow a consistent pattern
 
 ## Demo
 
@@ -37,23 +38,8 @@ Our demo page can be found [here](http://st-h.github.io/ember-content-editable/)
 
 Use it just like `input` or `textarea`:
 
-```javascript
-{{content-editable value=name placeholder="Your name"}}
 ```
-
-You can also pass in an extra CSS class if required, and of course specify the tag:
-
-```javascript
-{{content-editable value=name
-                   placeholder="Your name"
-                   class="name-field"
-                   tagName="h3"}}
-```
-
-And lastly, you can also pass `value` as a positional parameter:
-
-```javascript
-{{content-editable name placeholder="Your name"}}
+<ContentEditable @value={{this.value}} @onChange={{fn (mut this.value)}} @placeholder="Your name"/>
 ```
 
 ### Options
