@@ -11,15 +11,11 @@
 
 Ember cli contenteditable component, with placeholder and value binding. Use it just like an `input` or `textarea`, but it will autoresize for you.
 
-## Installation
+## Compatibility
 
-`ember install ember-content-editable`
-
-### Prerequisites
-
-* Ember.js v3.24 or above
-* Ember CLI v3.24 or above
-* Node.js v12 or above
+* Ember.js v3.28 or above
+* Ember CLI v3.28 or above
+* Node.js v14 or above
 
 ### Versions
 
@@ -33,6 +29,10 @@ Major changes as of **3.0.0**:
 ## Demo
 
 Our demo page can be found [here](http://st-h.github.io/ember-content-editable/)
+
+## Installation
+
+`ember install ember-content-editable`
 
 ## Usage
 
