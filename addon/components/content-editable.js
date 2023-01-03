@@ -29,10 +29,10 @@ export default class ContentEditableComponent extends Component {
     const isEscape = event.keyCode === 27;
 
     if (isEnter && this.args.onEnter) {
-      this.args.onEnter();
+      this.args.onEnter(event);
     }
     if (isEscape && this.args.onEscape) {
-      this.args.onEscape();
+      this.args.onEscape(event);
     }
 
     if (this.args.maxlength &&
