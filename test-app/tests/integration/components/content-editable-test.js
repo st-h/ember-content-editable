@@ -75,7 +75,7 @@ module('Integration | Component | content editable', function(hooks) {
     assert.equal(getPlaceholderContent(editable), 'bananas', "CSS before:content matches placeholder");
 
     await focus(editable);
-
+debugger;
     assert.equal(getPlaceholderContent(editable), "", "CSS before: placeholder content removed when `clearPlaceholderOnFocus` is used");
   });
 

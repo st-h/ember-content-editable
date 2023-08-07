@@ -1,3 +1,5 @@
+import './content-editable.css';
+
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 

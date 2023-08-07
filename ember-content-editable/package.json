@@ -1,0 +1,79 @@
+{
+  "name": "ember-content-editable",
+  "version": "4.0.0-rc.2",
+  "description": "A content-editable component for ember-cli that just works.",
+  "keywords": [
+    "ember-addon",
+    "ember",
+    "ember-cli",
+    "contenteditable",
+    "content",
+    "editable",
+    "textarea",
+    "auto resize",
+    "resize",
+    "resizing"
+  ],
+  "repository": "https://github.com/st-h/ember-content-editable",
+  "license": "MIT",
+  "author": "st-h",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "rollup --config",
+    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
+    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
+    "lint:hbs": "ember-template-lint .",
+    "lint:hbs:fix": "ember-template-lint . --fix",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "prepack": "rollup --config",
+    "start": "rollup --config --watch",
+    "test": "echo 'A v2 addon does not have tests, run tests in test-app'",
+    "test:ember": "ember test",
+    "test:ember-compatibility": "ember try:each"
+  },
+  "dependencies": {
+    "@embroider/addon-shim": "^1.8.4",
+    "ember-content-editable-modifier": "2.0.1-rc.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-decorators": "^7.21.0",
+    "@embroider/addon-dev": "^3.0.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "rollup": "^3.18.0",
+    "rollup-plugin-copy": "^3.4.0"
+  },
+  "peerDependencies": {
+    "ember-source": "^5.1.2"
+  },
+  "engines": {
+    "node": "14.* || 16.* || >= 18"
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "app-js": {
+      "./components/content-editable.js": "./dist/_app_/components/content-editable.js"
+    },
+    "main": "addon-main.cjs",
+    "type": "addon",
+    "version": 2
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*.js",
+    "./addon-main.js": "./addon-main.cjs"
+  },
+  "files": [
+    "addon-main.cjs",
+    "dist"
+  ]
+}
