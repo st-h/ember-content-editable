@@ -1,21 +1,3 @@
-.ember-content-editable:empty:not(:focus):before,
-.ember-content-editable:focus:empty:before {
-  content: attr(placeholder);
-}
-
 .ember-content-editable.clear-on-focus:empty:focus:before {
   content: '';
-}
-
-.ember-content-editable[contenteditable] {
-  cursor: text;
-  -webkit-user-modify: read-write-plaintext-only;
-}
-
-.ember-content-editable:empty {
-  color: #a9a9a9;
-}
-
-.ember-content-editable:empty:after {
-  content: "\0000a0";
 }

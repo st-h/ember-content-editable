@@ -5321,10 +5321,10 @@ ember-compatibility-helpers@^1.1.2:
     fs-extra "^9.1.0"
     semver "^5.4.1"
 
-ember-content-editable-modifier@2.0.1-rc.4:
-  version "2.0.1-rc.4"
-  resolved "https://registry.yarnpkg.com/ember-content-editable-modifier/-/ember-content-editable-modifier-2.0.1-rc.4.tgz#f348e20d7e331fdb87d1c9cf33dc8d418d61442b"
-  integrity sha512-nIlP8I675qe6XpkOwLLkBNuxyy2oq8jyF06Gefw61QXirsTlvfzFgLGYrgsK9NSz4FV7x6z0wmF5W3AUwymrhA==
+ember-content-editable-modifier@2.0.1-rc.5:
+  version "2.0.1-rc.5"
+  resolved "https://registry.yarnpkg.com/ember-content-editable-modifier/-/ember-content-editable-modifier-2.0.1-rc.5.tgz#cb76e6ba8396fe3907682253671d07fa2d41bb79"
+  integrity sha512-CZCrr/AT21mdMtvv8l0On7mIWSqbc9iu8+b6bhDmKraMl3SIqydMcXSlj/DKYuRlCyVKX09dU4kq8IKYUhJu6w==
   dependencies:
     "@embroider/addon-shim" "^1.8.4"
     ember-modifier "^4.1.0"

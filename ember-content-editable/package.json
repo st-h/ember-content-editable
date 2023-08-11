@@ -1,6 +1,6 @@
 {
   "name": "ember-content-editable",
-  "version": "4.0.0-rc.5",
+  "version": "4.0.0-rc.6",
   "description": "A content-editable component for ember-cli that just works.",
   "keywords": [
     "ember-addon",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@embroider/addon-shim": "^1.8.4",
-    "ember-content-editable-modifier": "2.0.1-rc.4"
+    "ember-content-editable-modifier": "2.0.1-rc.5"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
