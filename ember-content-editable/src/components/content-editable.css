@@ -1,9 +1,9 @@
-.ember-content-editable[contenteditable]:empty:not(:focus):before,
-.ember-content-editable[contenteditable]:focus:empty:before {
+.ember-content-editable:empty:not(:focus):before,
+.ember-content-editable:focus:empty:before {
   content: attr(placeholder);
 }
 
-.ember-content-editable[contenteditable].clear-on-focus:empty:focus:before {
+.ember-content-editable.clear-on-focus:empty:focus:before {
   content: '';
 }
 
@@ -12,10 +12,10 @@
   -webkit-user-modify: read-write-plaintext-only;
 }
 
-.ember-content-editable[contenteditable]:empty {
+.ember-content-editable:empty {
   color: #a9a9a9;
 }
 
-.ember-content-editable[contenteditable]:empty:after {
+.ember-content-editable:empty:after {
   content: "\0000a0";
 }
