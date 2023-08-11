@@ -82,7 +82,7 @@
     "webpack": "^5.78.0"
   },
   "peerDependencies": {
-    "ember-source": "^5.1.2"
+    "ember-source": "^4.0.0 || >= 5.0.0"
   },
   "engines": {
     "node": "14.* || 16.* || >= 18"
