@@ -3,7 +3,7 @@
 
 {{!-- template-lint-disable no-unbalanced-curlies --}}
 <pre>
-  &#123;&#123;content-editable value=value placeholder="enter something" maxlength=40
+  &#123;&#123;content-editable value=value placeholder={{this.placeholder}} maxlength=40
                    enter=(fn incrementProperty "enterCount" 1)
                    escape-press=(fn incrementProperty "escapeCount" 1)
                    length-exceeded=(fn displayLengthAlert)
@@ -11,7 +11,7 @@
 </pre>
 <ContentEditable @value={{this.value}}
                  @onChange={{fn (mut this.value)}}
-                 @placeholder="enter something"
+                 @placeholder={{this.placeholder}}
                  @maxlength={{40}}
                  @allowNewlines={{false}}
                  @onEnter={{fn this.incrementProperty "enterCount" 1}}
@@ -26,6 +26,11 @@
   value:
   <pre id="text-output">{{this.value}}</pre>
 </p>
+
+<button {{on 'click' this.randomPlaceholder}} type="button">Modify Placeholder</button>
+
+<br>
+<br>
 
 <div class="info">
   <div>text length: {{this.value.length}}</div>

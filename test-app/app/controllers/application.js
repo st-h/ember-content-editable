@@ -10,6 +10,7 @@ export default class ApplicationController extends Controller {
   @tracked enterCount = 0;
   @tracked escapeCount = 0;
   @tracked mouseInside = false;
+  @tracked placeholder = 'enter something...';
 
   @action
   displayLengthAlert(charCount) {
@@ -19,5 +20,10 @@ export default class ApplicationController extends Controller {
   @action
   incrementProperty(prop, val) {
     this[prop] += val;
+  }
+
+  @action
+  randomPlaceholder() {
+    this.placeholder = (Math.random() + 1).toString(36).substring(7);
   }
 }
