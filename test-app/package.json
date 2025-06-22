@@ -1,6 +1,6 @@
 {
   "name": "test-app",
-  "version": "4.0.0-rc.6",
+  "version": "4.0.0",
   "description": "A content-editable component for ember-cli that just works.",
   "keywords": [
     "ember",
@@ -56,7 +56,7 @@
     "ember-cli-htmlbars": "^6.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-terser": "^4.0.2",
-    "ember-content-editable": "4.0.0-rc.6",
+    "ember-content-editable": "4.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator-for-testing": "^1.0.0",
     "ember-page-title": "^7.0.0",
