@@ -23,9 +23,6 @@ importers:
       ember-content-editable-modifier:
         specifier: ^4.0.3
         version: 4.0.3(@babel/core@7.29.0)
-      ember-source:
-        specifier: ^4.0.0 || >= 5.0.0
-        version: 6.10.1(@glimmer/component@2.0.0)(rsvp@4.8.5)
     devDependencies:
       '@babel/core':
         specifier: ^7.29.0
