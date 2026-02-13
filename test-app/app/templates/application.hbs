@@ -1,7 +1,7 @@
 {{! template-lint-disable attribute-indentation }}
 <h1>ember-content-editable</h1>
 
-{{!-- template-lint-disable no-unbalanced-curlies --}}
+{{! template-lint-disable no-unbalanced-curlies }}
 <pre>
   &#123;&#123;content-editable value=value placeholder={{this.placeholder}} maxlength=40
                    enter=(fn incrementProperty "enterCount" 1)
@@ -9,36 +9,45 @@
                    length-exceeded=(fn displayLengthAlert)
                    id="text-input" class="important" autofocus=true&#125;&#125;
 </pre>
-<ContentEditable @value={{this.value}}
-                 @onChange={{fn (mut this.value)}}
-                 @placeholder={{this.placeholder}}
-                 @maxlength={{40}}
-                 @allowNewlines={{false}}
-                 @onEnter={{fn this.incrementProperty "enterCount" 1}}
-                 @onEscape={{fn this.incrementProperty "escapeCount" 1}}
-                 @onLengthExceeded={{this.displayLengthAlert}}
-                 @onKey={{fn this.incrementProperty "keypress" 1}}
-                 id="text-input"
-                 class="important"
-                 @autofocus={{true}} />
+<ContentEditable
+  @value={{this.value}}
+  @onChange={{fn (mut this.value)}}
+  @placeholder={{this.placeholder}}
+  @maxlength={{40}}
+  @allowNewlines={{false}}
+  @onEnter={{fn this.incrementProperty "enterCount" 1}}
+  @onEscape={{fn this.incrementProperty "escapeCount" 1}}
+  @onLengthExceeded={{this.displayLengthAlert}}
+  @onKey={{fn this.incrementProperty "keypress" 1}}
+  id="text-input"
+  class="important"
+  @autofocus={{true}}
+/>
 
 <p class="jsTest-textOutput info">
   value:
   <pre id="text-output">{{this.value}}</pre>
 </p>
 
-<button {{on 'click' this.randomPlaceholder}} type="button">Modify Placeholder</button>
+<button {{on "click" this.randomPlaceholder}} type="button">Modify Placeholder</button>
 
-<br>
-<br>
+<br />
+<br />
 
 <div class="info">
   <div>text length: {{this.value.length}}</div>
   <div>enter pressed: {{this.enterCount}}</div>
   <div>escape pressed: {{this.escapeCount}}</div>
   <div>key-press: {{this.keypress}}</div>
-  <button {{on 'click' (fn (mut this.value) "")}} type="button">set value to empty string</button>
+  <button {{on "click" (fn (mut this.value) "")}} type="button">set value to
+    empty string</button>
 </div>
 
-<ContentEditable @value={{this.nullValue}} @placeholder="placeholder for null value" />
-<ContentEditable @value={{this.undefinedValue}} @placeholder="placeholder for undefined value" />
+<ContentEditable
+  @value={{this.nullValue}}
+  @placeholder="placeholder for null value"
+/>
+<ContentEditable
+  @value={{this.undefinedValue}}
+  @placeholder="placeholder for undefined value"
+/>

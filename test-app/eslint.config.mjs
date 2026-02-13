@@ -74,6 +74,9 @@ export default [
     plugins: {
       qunit,
     },
+    rules: {
+      'qunit/require-expect': ['error', 'except-simple'],
+    },
   },
   /**
    * CJS node files
