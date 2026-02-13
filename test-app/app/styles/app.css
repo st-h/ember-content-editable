@@ -4,10 +4,10 @@
 }
 
 .important {
-  background: rgba(255, 0, 0, .2);
+  background: rgb(255 0 0 / 20%);
 }
 
 .info {
-  background: rgba(0, 0, 0, .1);
-  padding: .5em;
+  background: rgb(0 0 0 / 1%);
+  padding: 0.5em;
 }

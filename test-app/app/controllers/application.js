@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
-  value = "<div>this field should be focused</div>";
+  value = '<div>this field should be focused</div>';
   nullValue = null;
   undefinedValue = undefined;
 
@@ -14,7 +14,11 @@ export default class ApplicationController extends Controller {
 
   @action
   displayLengthAlert(charCount) {
-    alert('you tried to enter ' + charCount + ' characters, which just seems to be enough for now. The limit is 40!');
+    alert(
+      'you tried to enter ' +
+        charCount +
+        ' characters, which just seems to be enough for now. The limit is 40!',
+    );
   }
 
   @action
